@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             this.txtIP = new System.Windows.Forms.TextBox();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.txtChat = new System.Windows.Forms.TextBox();
             this.lblServer = new System.Windows.Forms.Label();
             this.btnSend = new System.Windows.Forms.Button();
@@ -41,7 +40,12 @@
             this.lvlName = new System.Windows.Forms.Label();
             this.lblPassword = new System.Windows.Forms.Label();
             this.txtPassword = new System.Windows.Forms.TextBox();
-            this.btnLogin = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.lblMismatch = new System.Windows.Forms.Label();
+            this.lblTime = new System.Windows.Forms.Label();
+            this.btnRestart = new System.Windows.Forms.Button();
+            this.GameTimer = new System.Windows.Forms.Timer(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // txtIP
@@ -51,11 +55,6 @@
             this.txtIP.Size = new System.Drawing.Size(232, 23);
             this.txtIP.TabIndex = 0;
             this.txtIP.Text = "127.0.0.1:9000";
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
             // txtChat
             // 
@@ -145,22 +144,58 @@
             this.txtPassword.Size = new System.Drawing.Size(232, 23);
             this.txtPassword.TabIndex = 10;
             // 
-            // btnLogin
+            // pictureBox1
             // 
-            this.btnLogin.Location = new System.Drawing.Point(319, 40);
-            this.btnLogin.Name = "btnLogin";
-            this.btnLogin.Size = new System.Drawing.Size(75, 23);
-            this.btnLogin.TabIndex = 12;
-            this.btnLogin.Text = "Login";
-            this.btnLogin.UseVisualStyleBackColor = true;
-            this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
+            this.pictureBox1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.pictureBox1.Location = new System.Drawing.Point(400, 8);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(1);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(2, 442);
+            this.pictureBox1.TabIndex = 12;
+            this.pictureBox1.TabStop = false;
+            // 
+            // lblMismatch
+            // 
+            this.lblMismatch.AutoSize = true;
+            this.lblMismatch.Location = new System.Drawing.Point(934, 88);
+            this.lblMismatch.Name = "lblMismatch";
+            this.lblMismatch.Size = new System.Drawing.Size(111, 15);
+            this.lblMismatch.TabIndex = 14;
+            this.lblMismatch.Text = "Match or mismatch";
+            // 
+            // lblTime
+            // 
+            this.lblTime.AutoSize = true;
+            this.lblTime.Location = new System.Drawing.Point(934, 110);
+            this.lblTime.Name = "lblTime";
+            this.lblTime.Size = new System.Drawing.Size(56, 15);
+            this.lblTime.TabIndex = 15;
+            this.lblTime.Text = "Time left:";
+            // 
+            // btnRestart
+            // 
+            this.btnRestart.Location = new System.Drawing.Point(934, 62);
+            this.btnRestart.Name = "btnRestart";
+            this.btnRestart.Size = new System.Drawing.Size(75, 23);
+            this.btnRestart.TabIndex = 16;
+            this.btnRestart.Text = "Restart";
+            this.btnRestart.UseVisualStyleBackColor = true;
+            this.btnRestart.Click += new System.EventHandler(this.btnRestart_Click);
+            // 
+            // GameTimer
+            // 
+            this.GameTimer.Interval = 1000;
+            this.GameTimer.Tick += new System.EventHandler(this.TimerEvent);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(405, 457);
-            this.Controls.Add(this.btnLogin);
+            this.ClientSize = new System.Drawing.Size(1167, 457);
+            this.Controls.Add(this.btnRestart);
+            this.Controls.Add(this.lblTime);
+            this.Controls.Add(this.lblMismatch);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.lblPassword);
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.lvlName);
@@ -175,6 +210,7 @@
             this.Name = "Form1";
             this.Text = "TCP/IP Client";
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -183,7 +219,6 @@
         #endregion
 
         private TextBox txtIP;
-        private ContextMenuStrip contextMenuStrip1;
         private TextBox txtChat;
         private Label lblServer;
         private Button btnSend;
@@ -194,6 +229,10 @@
         private Label lvlName;
         private Label lblPassword;
         private TextBox txtPassword;
-        private Button btnLogin;
+        private PictureBox pictureBox1;
+        private Label lblMismatch;
+        private Label lblTime;
+        private Button btnRestart;
+        private System.Windows.Forms.Timer GameTimer;
     }
 }

@@ -74,42 +74,10 @@ namespace TCPServer
             if (db.getOnlineStatus(name) == false && name != null && psw != null)
             {
                 logging(name, psw, $"{e.IpPort}");
-                
 
                 name = null;
                 psw = null;
             }
-
-
-
-            // Old way... kinda broken
-            //var match = testing.IndexOfAny(".".ToCharArray()) != -1;
-            //var match2 = testing.IndexOfAny("~".ToCharArray()) != -1;
-            //string psw = "";
-
-            /*if (match2 == true && match == false)
-            {
-                psw = testing.Substring(2);
-            }
-
-            if (match == true && match2 == false)
-            {
-                string temp = testing.Substring(2); // Removes the prefix
-                // Assign name to ip address
-                //db.checkUserName(temp, "Password", $"{e.IpPort}");
-                logging(temp, psw, $"{e.IpPort}");
-            }
-
-            if (match == false && match2 == false)
-            {
-                this.Invoke((MethodInvoker)delegate
-                {
-                    txtChat.Text += $"{e.IpPort}: {Encoding.UTF8.GetString(e.Data)}{Environment.NewLine}";  // Outputs any message recieved to the chat box
-                });
-                relayMessage(testing, $"{e.IpPort}");
-            }*/
-
-            //relayMessage(testing, $"{e.IpPort}");
         }
 
         // Logging in
@@ -145,7 +113,6 @@ namespace TCPServer
             server.Send(ip, "Incorrect login details. Please restart the app.");
             server.DisconnectClient(ip);
         }
-
 
         private void Events_ClientDisconnected(object? sender, ConnectionEventArgs e)
         {
