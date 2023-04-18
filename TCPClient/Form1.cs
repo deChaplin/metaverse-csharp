@@ -97,6 +97,12 @@ namespace TCPClient
             });
         }
 
+
+        //   The game
+        //      |
+        //      |
+        //      V
+
         private void setupGame()
         {
             loadImages();
@@ -114,7 +120,7 @@ namespace TCPClient
                 {
                     if (x.Tag != null)
                     {
-                        x.Image = Image.FromFile("pics/" + (string)x.Tag + ".png");
+                        x.Image = Image.FromFile("../../../pics/" + (string)x.Tag + ".png");
                     }
                 }
             }
@@ -176,7 +182,7 @@ namespace TCPClient
                 picA = sender as PictureBox;
                 if (picA.Tag != null && picA.Image == null)
                 {
-                    picA.Image = Image.FromFile("pics/"+(string)picA.Tag + ".png");
+                    picA.Image = Image.FromFile("../../../pics/"+(string)picA.Tag + ".png");
                     firstChoice = (string)picA.Tag;
                 }
             }
@@ -186,7 +192,7 @@ namespace TCPClient
 
                 if (picB.Tag != null && picB.Image == null) 
                 {
-                    picB.Image = Image.FromFile("pics/" + (string)picB.Tag + ".png");
+                    picB.Image = Image.FromFile("../../../pics/" + (string)picB.Tag + ".png");
                     secondChoice = (string)picB.Tag;
                 }
             }
