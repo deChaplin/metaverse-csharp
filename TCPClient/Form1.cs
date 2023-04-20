@@ -2,19 +2,21 @@ using SuperSimpleTcp;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
+using System.Xml.Linq;
 
 namespace TCPClient
 {
     public partial class Form1 : Form
     {
         List<int> numbers = new List<int> { 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8 };
+        List<int> serverNum = new List<int> ();
         string firstChoice;
         string secondChoice;
         int attempts;
         List<PictureBox> pictureBoxList = new List<PictureBox>();
         PictureBox picA;
         PictureBox picB;
-        int timeLeft = 30;
+        int timeLeft = 2;
         int countDown;
         bool isGameOver = false;
 
@@ -62,15 +64,48 @@ namespace TCPClient
             client.Events.DataReceived += Events_DataReceived;
             btnSend.Enabled = false;
 
-            setupGame();
+           // setupGame();
         }
 
         private void Events_DataReceived(object sender, DataReceivedEventArgs e)
         {
             this.Invoke((MethodInvoker)delegate
             {
-                txtChat.Text += $"{Encoding.UTF8.GetString(e.Data)}{Environment.NewLine}";  // Displays any data recieved by the server in the chat box
-                //txtChat.Text += $"Server: {Encoding.UTF8.GetString(e.Data)}{Environment.NewLine}";  // Displays any data recieved by the server in the chat box
+                //txtChat.Text += $"{Encoding.UTF8.GetString(e.Data)}{Environment.NewLine}";  // Displays any data recieved
+
+                string testing = Encoding.UTF8.GetString(e.Data);
+
+                // Using prefixes and a switch statement to handle the packets correctly
+                switch (testing.Substring(0, 1))
+                {
+                    case "+":
+                        txtChat.Text += $"{testing.Substring(1)}{Environment.NewLine}";  // Displays any data recieved
+                        break;
+                    case "/":
+                        txtChat.Text += $"{testing.Substring(1)}{Environment.NewLine}";  // Displays any data recieved
+                        MessageBox.Show("The details you have enterred are incorrect. Please try again", "Incorrect details", MessageBoxButtons.OK);
+                        client.Dispose();
+
+                        btnSend.Enabled = false; 
+                        btnConnect.Enabled = true; 
+                        txtName.Enabled = true;    
+                        txtPassword.Enabled = true;   
+                        break;
+                    case "*":
+                        // Image position
+                        testing = testing.Replace("*", "");
+                        int num = int.Parse(testing);
+                        //MessageBox.Show(testing);
+                        serverNum.Add(num);
+
+                        if (serverNum.Count == 16)
+                        {
+                            setupGame();
+                        }
+
+                        break;
+                }
+
             });
             
         }
@@ -97,6 +132,10 @@ namespace TCPClient
             });
         }
 
+        private void btnMatchmake_Click(object sender, EventArgs e)
+        {
+            client.Send("#");
+        }
 
         //   The game
         //      |
@@ -115,7 +154,7 @@ namespace TCPClient
 
             if (countDown < 1)
             {
-                gameOver("Times up!");
+                gameOver("Times up!", false);
                 foreach (PictureBox x in pictureBoxList)
                 {
                     if (x.Tag != null)
@@ -166,8 +205,31 @@ namespace TCPClient
                 }
             }
 
-
             restartGame();
+        }
+
+        private void restartGame()
+        {
+            // Randomising the list
+            /*var randomList = numbers.OrderBy(x => Guid.NewGuid()).ToList();
+            numbers = randomList;*/
+
+            //serverNum.Clear();
+            //client.Send("#");
+
+            for (int i = 0; i < pictureBoxList.Count; i++)
+            {
+                pictureBoxList[i].Image = null;
+                //pictureBoxList[i].Tag = numbers[i].ToString();
+                pictureBoxList[i].Tag = serverNum[i].ToString();
+            }
+
+            attempts = 0;
+            lblMismatch.Text = "Mismatched: " + attempts + " times.";
+            lblTime.Text = "Time left: " + timeLeft;
+            isGameOver = false;
+            GameTimer.Start();
+            countDown = timeLeft;
         }
 
         private void NewPic_Click(object? sender, EventArgs e)
@@ -177,7 +239,7 @@ namespace TCPClient
                 return;
             }
 
-            if (firstChoice== null) 
+            if (firstChoice == null) 
             {
                 picA = sender as PictureBox;
                 if (picA.Tag != null && picA.Image == null)
@@ -186,7 +248,7 @@ namespace TCPClient
                     firstChoice = (string)picA.Tag;
                 }
             }
-            else if (secondChoice== null) 
+            else if (secondChoice == null) 
             {
                 picB = sender as PictureBox;
 
@@ -201,28 +263,7 @@ namespace TCPClient
                 checkPairs(picA, picB);
             }
         }
-
-        private void restartGame()
-        {
-            // Randomising the list
-            var randomList = numbers.OrderBy(x => Guid.NewGuid()).ToList();
-
-            numbers = randomList;
-
-            for (int i = 0; i < pictureBoxList.Count; i++)
-            {
-                pictureBoxList[i].Image = null;
-                pictureBoxList[i].Tag = numbers[i].ToString();
-            }
-
-            attempts = 0;
-            lblMismatch.Text = "Mismatched: " + attempts + " times.";
-            lblTime.Text = "Time left: " + timeLeft;
-            isGameOver = false;
-            GameTimer.Start();
-            countDown = timeLeft;
-        }
-
+        
         private void checkPairs(PictureBox A, PictureBox B)
         {
             // Checks if the 2 images selected are correct
@@ -250,18 +291,35 @@ namespace TCPClient
                 }
             }
 
-            if (pictureBoxList.All(o => o.Tag != pictureBoxList[0].Tag)) 
+            if (pictureBoxList.All(o => o.Tag == null))
+            {
+                gameOver("You finished!", true);
+            }
+
+            /*if (pictureBoxList.All(o => o.Tag != pictureBoxList[0].Tag))
             {
                 gameOver("You finished in " + timeLeft);
-            }
+            }*/
+
+
         }
 
-        private void gameOver(string msg)
+        private void gameOver(string msg, bool result)
         {
             GameTimer.Stop();
             isGameOver = true;
             MessageBox.Show(msg + " Click restart to play again.", "WOOHOO!");
-        }
 
+
+            if (result)
+            {
+                client.Send("~");
+            }
+            else
+            {
+                client.Send("£");
+            }
+
+        }
     }
 }

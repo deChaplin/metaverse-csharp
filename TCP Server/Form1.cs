@@ -36,6 +36,7 @@ namespace TCPServer
 
         string name;
         string psw;
+        List<int> numbers = new List<int> { 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8 };
 
         private void Events_DataReceived(object? sender, DataReceivedEventArgs e)
         {
@@ -51,23 +52,45 @@ namespace TCPServer
             // Using prefixes and a switch statement to handle the packets correctly
             switch (testing.Substring(0, 1))
             {
+                // Username
                 case "+":
                     name = testing.Substring(1);
-                    this.Invoke((MethodInvoker)delegate
-                    {
-                        txtChat.Text += $"name: {name}{Environment.NewLine}";
-                    });
                     break;
+                // Password
                 case "/":
                     psw = testing.Substring(1);
-                    this.Invoke((MethodInvoker)delegate
-                    {
-                        txtChat.Text += $"pass: {psw}{Environment.NewLine}";  // Outputs any message recieved to the chat box
-                    });
                     break;
-
+                // Start game
+                case "#":
+                // Send image tags
+                // Randomising the list
+                    var randomList = numbers.OrderBy(x => Guid.NewGuid()).ToList();
+                    numbers = randomList;
+                    for (int i = 0; i < numbers.Count; i++)
+                    {
+                        server.Send($"{e.IpPort}", $"*{numbers[i]}");
+                        Thread.Sleep(5);
+                    }
+                    break;
+                // Message from client
                 case "*":
                     relayMessage(testing.Substring(1), $"{e.IpPort}");
+                    break;
+                case "~":
+                    // A player has won
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        txtChat.Text += $"Adding elo!{Environment.NewLine}";  
+                    });
+                    db.setElo(db.getName($"{e.IpPort}"), true);
+                    break;
+                case "£":
+                    // A player has lost
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        txtChat.Text += $"Removing elo!{Environment.NewLine}"; 
+                    });
+                    db.setElo(db.getName($"{e.IpPort}"), false);
                     break;
             }
 
@@ -99,6 +122,7 @@ namespace TCPServer
                     db.setOnlineStatus(ip, "online");
                     break;
                 case 2:
+                    // server.Send(ip, "Username or password incorrect. Please restart and retry");
                     closeClient(ip);
                     break;
                 case 3:
@@ -110,8 +134,9 @@ namespace TCPServer
 
         private void closeClient(string ip)
         {
-            server.Send(ip, "Incorrect login details. Please restart the app.");
-            server.DisconnectClient(ip);
+            server.Send(ip, "/Incorrect login details. Please restart the app.");
+            Thread.Sleep(600);
+            //server.DisconnectClient(ip);
         }
 
         private void Events_ClientDisconnected(object? sender, ConnectionEventArgs e)
@@ -127,7 +152,6 @@ namespace TCPServer
 
         private void Events_ClientConnected(object? sender, ConnectionEventArgs e)
         {
-
             this.Invoke((MethodInvoker)delegate
             {
                 txtChat.Text += $"{e.IpPort} connected.{Environment.NewLine}";   // Displays a connect message
@@ -158,7 +182,7 @@ namespace TCPServer
             {
                 if (lstClientIP.Items[i].ToString() != senderIP)
                 {
-                    server.Send(lstClientIP.Items[i].ToString(), testing);  // Sends the message to the selected client
+                    server.Send(lstClientIP.Items[i].ToString(), "+" + testing);  // Sends the message to the selected client
                 }
             };
         }

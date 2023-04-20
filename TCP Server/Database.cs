@@ -7,6 +7,7 @@ using System.Data.SQLite;
 using System.Data;
 using System.Xml.XPath;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Xml.Linq;
 
 namespace TCPServer
 {
@@ -50,7 +51,8 @@ namespace TCPServer
                 "name TEXT, " +
                 "password TEXT, " +
                 "currentIP TEXT," +
-                "status TEXT)";
+                "status TEXT," +
+                "elo TEXT)";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             command.ExecuteNonQuery();
 
@@ -148,13 +150,14 @@ namespace TCPServer
             connection.Open();
 
             // Define the SQL command with parameters for the data to be inserted
-            string sql = "INSERT INTO playerData (name, password, currentIP) VALUES (@name, @password, @currentIP)";
+            string sql = "INSERT INTO playerData (name, password, currentIP, elo) VALUES (@name, @password, @currentIP, @elo)";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
 
             // Set the parameter values for the SQL command
             command.Parameters.AddWithValue("@name", name);
             command.Parameters.AddWithValue("@password", password);
             command.Parameters.AddWithValue("@currentIP", ip);
+            command.Parameters.AddWithValue("@elo", 500);
 
             // Execute the SQL command
             command.ExecuteNonQuery();
@@ -251,10 +254,102 @@ namespace TCPServer
             connection.Close();
         }
 
-        public void setElo()
+        public int getElo(string name)
         {
+            // Open the connection
+            string databaseFile = "mydatabase.db";
+            string connectionString = "Data Source=" + databaseFile + ";Version=3;";
+            SQLiteConnection connection = new SQLiteConnection(connectionString);
+            connection.Open();
+
+            // Define the SQL command with parameters for the data to be selected
+            string sql = "SELECT elo FROM playerData WHERE name = @name";
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
+
+            // Set the parameter values for the SQL command
+            command.Parameters.AddWithValue("@name", name);
+
+            // Execute the SQL command and get the matching row
+            object result = command.ExecuteScalar();
+
+            // Close the connection
+            connection.Close();
+
+
+            int elo = int.Parse(result.ToString());
+
+            return elo;
+        }
+
+        public void setElo(string name, bool result)
+        {
+            int currentElo = getElo(name);
+            int newElo;
+
+            // Open the connection
+            string databaseFile = "mydatabase.db";
+            string connectionString = "Data Source=" + databaseFile + ";Version=3;";
+            SQLiteConnection connection = new SQLiteConnection(connectionString);
+            connection.Open();
+
+            // Define the SQL command with parameters for the data to be selected
+            string sql = "UPDATE playerData SET elo = @elo WHERE name = @name";
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
+
+            // True means a win
+            if (result == true)
+            {
+                newElo = currentElo + 50;
+            }
+            else
+            {
+                if (currentElo == 0)
+                {
+                    newElo = currentElo;
+                }
+                else
+                {
+                    newElo = currentElo - 50;
+                }
+            }
+
+            // Set the parameter values for the SQL command
+            command.Parameters.AddWithValue("@name", name);
+            command.Parameters.AddWithValue("@elo", newElo.ToString());
+            
+
+            // Execute the SQL command
+            command.ExecuteNonQuery();
+
+            // Close the connection
+            connection.Close();
 
         }
+
+        public string getName(string ip)
+        {
+            // Open the connection
+            string databaseFile = "mydatabase.db";
+            string connectionString = "Data Source=" + databaseFile + ";Version=3;";
+            SQLiteConnection connection = new SQLiteConnection(connectionString);
+            connection.Open();
+
+            // Define the SQL command with parameters for the data to be selected
+            string sql = "SELECT name FROM playerData WHERE currentIP = @ip";
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
+
+            // Set the parameter values for the SQL command
+            command.Parameters.AddWithValue("@ip", ip);
+
+            // Execute the SQL command and get the result
+            string name = (string)command.ExecuteScalar();
+
+            // Close the connection
+            connection.Close();
+
+            return name;
+        }
+
         public void leaderBoard()
         {
 

@@ -45,6 +45,7 @@
             this.lblTime = new System.Windows.Forms.Label();
             this.btnRestart = new System.Windows.Forms.Button();
             this.GameTimer = new System.Windows.Forms.Timer(this.components);
+            this.btnMatchmake = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -187,11 +188,22 @@
             this.GameTimer.Interval = 1000;
             this.GameTimer.Tick += new System.EventHandler(this.TimerEvent);
             // 
+            // btnMatchmake
+            // 
+            this.btnMatchmake.Location = new System.Drawing.Point(934, 33);
+            this.btnMatchmake.Name = "btnMatchmake";
+            this.btnMatchmake.Size = new System.Drawing.Size(75, 23);
+            this.btnMatchmake.TabIndex = 18;
+            this.btnMatchmake.Text = "Start";
+            this.btnMatchmake.UseVisualStyleBackColor = true;
+            this.btnMatchmake.Click += new System.EventHandler(this.btnMatchmake_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1167, 457);
+            this.Controls.Add(this.btnMatchmake);
             this.Controls.Add(this.btnRestart);
             this.Controls.Add(this.lblTime);
             this.Controls.Add(this.lblMismatch);
@@ -234,5 +246,6 @@
         private Label lblTime;
         private Button btnRestart;
         private System.Windows.Forms.Timer GameTimer;
+        private Button btnMatchmake;
     }
 }
