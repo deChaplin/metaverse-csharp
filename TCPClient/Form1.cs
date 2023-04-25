@@ -8,7 +8,7 @@ namespace TCPClient
 {
     public partial class Form1 : Form
     {
-        List<int> numbers = new List<int> { 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8 };
+        //List<int> numbers = new List<int> { 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8 };
         List<int> serverNum = new List<int> ();
         string firstChoice;
         string secondChoice;
@@ -16,9 +16,10 @@ namespace TCPClient
         List<PictureBox> pictureBoxList = new List<PictureBox>();
         PictureBox picA;
         PictureBox picB;
-        int timeLeft = 2;
+        int timeLeft = 60;
         int countDown;
         bool isGameOver = false;
+        string opponent;
 
         public Form1()
         {
@@ -95,19 +96,22 @@ namespace TCPClient
                         // Image position
                         testing = testing.Replace("*", "");
                         int num = int.Parse(testing);
-                        //MessageBox.Show(testing);
                         serverNum.Add(num);
 
                         if (serverNum.Count == 16)
                         {
                             setupGame();
                         }
-
+                        break;
+                    case "?":
+                        opponent = testing.Substring(1);
+                        MessageBox.Show($"You're playing against {opponent}. Good luck!");
+                        break;
+                    case "^":
+                        gameOver(testing.Substring(1), false);
                         break;
                 }
-
             });
-            
         }
 
         private void Events_Disconnected(object sender, ConnectionEventArgs e)
@@ -135,6 +139,7 @@ namespace TCPClient
         private void btnMatchmake_Click(object sender, EventArgs e)
         {
             client.Send("#");
+            btnMatchmake.Enabled = false;
         }
 
         //   The game
@@ -295,13 +300,6 @@ namespace TCPClient
             {
                 gameOver("You finished!", true);
             }
-
-            /*if (pictureBoxList.All(o => o.Tag != pictureBoxList[0].Tag))
-            {
-                gameOver("You finished in " + timeLeft);
-            }*/
-
-
         }
 
         private void gameOver(string msg, bool result)
@@ -310,16 +308,27 @@ namespace TCPClient
             isGameOver = true;
             MessageBox.Show(msg + " Click restart to play again.", "WOOHOO!");
 
-
             if (result)
             {
-                client.Send("~");
+                client.Send($"~{opponent}");
             }
             else
             {
                 client.Send("£");
+
+                foreach (PictureBox x in pictureBoxList)
+                {
+                    if (x.Tag != null)
+                    {
+                        x.Image = Image.FromFile("../../../pics/" + (string)x.Tag + ".png");
+                    }
+                }
             }
 
+            //pictureBoxList.Clear();
+            btnMatchmake.Enabled = true;
+            Thread.Sleep(1000);
+            pictureBoxList.Clear();
         }
     }
 }

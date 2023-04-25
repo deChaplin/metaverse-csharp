@@ -39,6 +39,7 @@
             this.lblMessage = new System.Windows.Forms.Label();
             this.lstClientIP = new System.Windows.Forms.ListBox();
             this.lblClientIP = new System.Windows.Forms.Label();
+            this.GameTick = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // txtIP
@@ -128,6 +129,11 @@
             this.lblClientIP.TabIndex = 9;
             this.lblClientIP.Text = "Client IP:";
             // 
+            // GameTick
+            // 
+            this.GameTick.Interval = 1000;
+            this.GameTick.Tick += new System.EventHandler(this.GameTick_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -162,5 +168,6 @@
         private Label lblMessage;
         private ListBox lstClientIP;
         private Label lblClientIP;
+        private System.Windows.Forms.Timer GameTick;
     }
 }

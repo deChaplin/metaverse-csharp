@@ -32,22 +32,25 @@ namespace TCPServer
             server.Events.ClientConnected += Events_ClientConnected;
             server.Events.ClientDisconnected += Events_ClientDisconnected;
             server.Events.DataReceived += Events_DataReceived;
+
+            GameTick.Start();
+
         }
 
         string name;
         string psw;
         List<int> numbers = new List<int> { 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8 };
+        List<string> lookingToPlay = new List<string>();
 
         private void Events_DataReceived(object? sender, DataReceivedEventArgs e)
         {
-            this.Invoke((MethodInvoker)delegate
+            /*this.Invoke((MethodInvoker)delegate
             {
                 txtChat.Text += $"{e.IpPort}: {Encoding.UTF8.GetString(e.Data)}{Environment.NewLine}";  // Outputs any message recieved to the chat box
-            });
+            });*/
 
             // Here I send the message to other clients
             string testing = Encoding.UTF8.GetString(e.Data);
-
 
             // Using prefixes and a switch statement to handle the packets correctly
             switch (testing.Substring(0, 1))
@@ -62,15 +65,20 @@ namespace TCPServer
                     break;
                 // Start game
                 case "#":
-                // Send image tags
-                // Randomising the list
-                    var randomList = numbers.OrderBy(x => Guid.NewGuid()).ToList();
-                    numbers = randomList;
-                    for (int i = 0; i < numbers.Count; i++)
+
+                    if (lookingToPlay.Contains($"{e.IpPort}"))
                     {
-                        server.Send($"{e.IpPort}", $"*{numbers[i]}");
-                        Thread.Sleep(5);
+                        break;
                     }
+                    else
+                    {
+                        lookingToPlay.Add($"{e.IpPort}");
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            txtChat.Text += $"Added {e.IpPort} to looking to play list!{Environment.NewLine}";
+                        });
+                    }
+                    //gameSetup();
                     break;
                 // Message from client
                 case "*":
@@ -78,11 +86,16 @@ namespace TCPServer
                     break;
                 case "~":
                     // A player has won
+
+                    //MessageBox.Show(db.getIp(testing.Substring(1)));
+                    server.Send(db.getIp(testing.Substring(1)), "^Your opponent won!");
+
+                    db.setElo(db.getName($"{e.IpPort}"), true);
+
                     this.Invoke((MethodInvoker)delegate
                     {
                         txtChat.Text += $"Adding elo!{Environment.NewLine}";  
                     });
-                    db.setElo(db.getName($"{e.IpPort}"), true);
                     break;
                 case "£":
                     // A player has lost
@@ -103,11 +116,68 @@ namespace TCPServer
             }
         }
 
+        private void GameTick_Tick(object sender, EventArgs e)
+        {
+            string player1;
+            string player2;
+
+            Random rnd = new Random();
+
+            // check if 2 or more players are in the looking to play list
+            if (lookingToPlay.Count >= 2)
+            {
+                // randomly select 2 players
+                int index1 = rnd.Next(lookingToPlay.Count);
+                int index2;
+
+                // Ensures that the same index isn't chosen twice
+                do
+                {
+                    index2 = rnd.Next(lookingToPlay.Count);
+                }
+                while (index2 == index1);
+
+                player1 = lookingToPlay[index1];
+                player2 = lookingToPlay[index2];
+
+                this.Invoke((MethodInvoker)delegate
+                {
+                    txtChat.Text += $"{index1}{Environment.NewLine}";   // Displays a connect message
+                    txtChat.Text += $"{index2}{Environment.NewLine}";   // Displays a connect message
+                });
+
+                // remove selected players from list
+                lookingToPlay.Remove(player1);
+                lookingToPlay.Remove(player2);
+
+                // selected players 'compete' against each 
+                // send each player the others IP for storage
+                server.Send(player1, $"?{db.getName(player2)}");
+                server.Send(player2, $"?{db.getName(player1)}");
+
+                gameSetup(player1, player2);
+                //gameSetup(player2);
+            }
+        }
+
+        private void gameSetup(string ip1, string ip2)
+        {
+            // Send image tags
+            // Randomising the list
+            var randomList = numbers.OrderBy(x => Guid.NewGuid()).ToList();
+            numbers = randomList;
+            for (int i = 0; i < numbers.Count; i++)
+            {
+                server.Send(ip1, $"*{numbers[i]}");
+                server.Send(ip2, $"*{numbers[i]}");
+                Thread.Sleep(5);
+            }
+        }
+
         // Logging in
         private void logging(string name, string password, string ip)
         {
             int result = 0;
-
 
             // Check if the username exists
             // If it does check login details
@@ -123,7 +193,7 @@ namespace TCPServer
                     break;
                 case 2:
                     // server.Send(ip, "Username or password incorrect. Please restart and retry");
-                    closeClient(ip);
+                    closeClient(ip, "Incorrect login details. Please restart the app.");
                     break;
                 case 3:
                     server.Send(ip, "Your account has been created!");
@@ -132,9 +202,9 @@ namespace TCPServer
             }
         }
 
-        private void closeClient(string ip)
+        private void closeClient(string ip, string msg)
         {
-            server.Send(ip, "/Incorrect login details. Please restart the app.");
+            server.Send(ip, "/" + msg);
             Thread.Sleep(600);
             //server.DisconnectClient(ip);
         }
@@ -148,6 +218,7 @@ namespace TCPServer
             });
 
             db.setOnlineStatus($"{e.IpPort}", "offline");
+            lookingToPlay.Remove($"e.IpPort");
         }
 
         private void Events_ClientConnected(object? sender, ConnectionEventArgs e)

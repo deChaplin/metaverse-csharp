@@ -254,6 +254,32 @@ namespace TCPServer
             connection.Close();
         }
 
+        public string getIp(string name)
+        {
+            // Open the connection
+            string databaseFile = "mydatabase.db";
+            string connectionString = "Data Source=" + databaseFile + ";Version=3;";
+            SQLiteConnection connection = new SQLiteConnection(connectionString);
+            connection.Open();
+
+            // Define the SQL command with parameters for the data to be selected
+            string sql = "SELECT currentIP FROM playerData WHERE name = @name";
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
+
+            // Set the parameter values for the SQL command
+            command.Parameters.AddWithValue("@name", name);
+
+            // Execute the SQL command and get the matching row
+            object result = command.ExecuteScalar();
+
+            // Close the connection
+            connection.Close();
+
+            string ip = result.ToString();
+
+            return ip;
+        }
+
         public int getElo(string name)
         {
             // Open the connection
@@ -274,7 +300,6 @@ namespace TCPServer
 
             // Close the connection
             connection.Close();
-
 
             int elo = int.Parse(result.ToString());
 
