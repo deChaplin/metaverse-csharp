@@ -1,4 +1,5 @@
 using SuperSimpleTcp;
+using System;
 using System.Security.Authentication.ExtendedProtection;
 using System.Text;
 
@@ -218,7 +219,24 @@ namespace TCPServer
             });
 
             db.setOnlineStatus($"{e.IpPort}", "offline");
-            lookingToPlay.Remove($"e.IpPort");
+
+            try
+            {
+                if (lookingToPlay.Count != 0)
+                {
+                    lookingToPlay.Remove($"{e.IpPort}");  // Removes the client from the looking to play list if they were in it.
+
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        txtChat.Text += $"Removed {e.IpPort} from looking to play list{Environment.NewLine}";   // Displays a connect message
+                    });
+                }
+            }
+            catch 
+            {
+                MessageBox.Show("Failed to remove client from list");
+            }
+            
         }
 
         private void Events_ClientConnected(object? sender, ConnectionEventArgs e)

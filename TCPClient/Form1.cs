@@ -8,7 +8,6 @@ namespace TCPClient
 {
     public partial class Form1 : Form
     {
-        //List<int> numbers = new List<int> { 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8 };
         List<int> serverNum = new List<int> ();
         string firstChoice;
         string secondChoice;
@@ -32,11 +31,21 @@ namespace TCPClient
         {
             try 
             {
-                client.Connect();  // Try connecting the client to the IP
-                btnSend.Enabled = true; // Enables send button
-                btnConnect.Enabled = false; // Disables connect button
-                txtName.Enabled = false;    // Disables the name text box
-                txtPassword.Enabled = false;    // Disables the password text box
+                if (txtName.Text.Length < 5  && txtPassword.Text.Length < 5) 
+                {
+                    MessageBox.Show("Username and password must be at least 5 characters long", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+                else
+                {
+                    client.Connect();  // Try connecting the client to the IP
+                    btnSend.Enabled = true; // Enables send button
+                    btnConnect.Enabled = false; // Disables connect button
+                    txtName.Enabled = false;    // Disables the name text box
+                    txtPassword.Enabled = false;    // Disables the password text box
+                    btnMatchmake.Enabled = true;
+                    btnRestart.Enabled = true;
+                    txtIP.Enabled = false;
+                }
             }
             catch (Exception ex)
             {
@@ -64,6 +73,8 @@ namespace TCPClient
             client.Events.Disconnected += Events_Disconnected;
             client.Events.DataReceived += Events_DataReceived;
             btnSend.Enabled = false;
+            btnMatchmake.Enabled = false;
+            btnRestart.Enabled = false;
 
            // setupGame();
         }
@@ -73,7 +84,6 @@ namespace TCPClient
             this.Invoke((MethodInvoker)delegate
             {
                 //txtChat.Text += $"{Encoding.UTF8.GetString(e.Data)}{Environment.NewLine}";  // Displays any data recieved
-
                 string testing = Encoding.UTF8.GetString(e.Data);
 
                 // Using prefixes and a switch statement to handle the packets correctly
@@ -215,17 +225,9 @@ namespace TCPClient
 
         private void restartGame()
         {
-            // Randomising the list
-            /*var randomList = numbers.OrderBy(x => Guid.NewGuid()).ToList();
-            numbers = randomList;*/
-
-            //serverNum.Clear();
-            //client.Send("#");
-
             for (int i = 0; i < pictureBoxList.Count; i++)
             {
                 pictureBoxList[i].Image = null;
-                //pictureBoxList[i].Tag = numbers[i].ToString();
                 pictureBoxList[i].Tag = serverNum[i].ToString();
             }
 
