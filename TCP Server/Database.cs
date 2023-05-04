@@ -17,9 +17,15 @@ namespace TCPServer
         {
             // Set the name and path of the new database file
             string databaseFile = "mydatabase.db";
-            // Create a new SQLite database file
-            SQLiteConnection.CreateFile(databaseFile);
 
+            // Check if the database file exisits
+            // If it does NOT create the database file
+            if (!File.Exists(databaseFile)) 
+            {
+                // Create a new SQLite database file
+                SQLiteConnection.CreateFile(databaseFile);
+            }
+            
             string connectionString = "Data Source=" + databaseFile + ";Version=3;";
             SQLiteConnection connection = new SQLiteConnection(connectionString);
             connection.Open();

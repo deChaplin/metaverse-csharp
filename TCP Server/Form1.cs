@@ -66,7 +66,6 @@ namespace TCPServer
                     break;
                 // Start game
                 case "#":
-
                     if (lookingToPlay.Contains($"{e.IpPort}"))
                     {
                         break;

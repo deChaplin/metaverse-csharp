@@ -301,6 +301,12 @@ namespace TCPClient
             if (pictureBoxList.All(o => o.Tag == null))
             {
                 gameOver("You finished!", true);
+
+
+                foreach (PictureBox pics in pictureBoxList.ToList())
+                {
+                    pics.Dispose();
+                }
             }
         }
 
