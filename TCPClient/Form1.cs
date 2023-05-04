@@ -31,9 +31,18 @@ namespace TCPClient
         {
             try 
             {
-                if (txtName.Text.Length < 5  && txtPassword.Text.Length < 5) 
+                // Checks if the username or password is less than 5 characters or contains whitespaces
+                if (txtName.Text.Length < 5 || txtPassword.Text.Length < 5 || txtName.Text.Contains(" ") || txtPassword.Text.Contains(" "))
                 {
-                    MessageBox.Show("Username and password must be at least 5 characters long", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    if (txtName.Text.Length < 5 || txtPassword.Text.Length < 5)
+                    {
+                        MessageBox.Show("Username and password must be at least 5 characters long", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+
+                    if (txtName.Text.Contains(" ") || txtPassword.Text.Contains(" "))
+                    {
+                        MessageBox.Show("Username or password can not contain a whitespace", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
                 }
                 else
                 {
@@ -75,8 +84,6 @@ namespace TCPClient
             btnSend.Enabled = false;
             btnMatchmake.Enabled = false;
             btnRestart.Enabled = false;
-
-           // setupGame();
         }
 
         private void Events_DataReceived(object sender, DataReceivedEventArgs e)
@@ -94,7 +101,7 @@ namespace TCPClient
                         break;
                     case "/":
                         txtChat.Text += $"{testing.Substring(1)}{Environment.NewLine}";  // Displays any data recieved
-                        MessageBox.Show("The details you have enterred are incorrect. Please try again", "Incorrect details", MessageBoxButtons.OK);
+                        MessageBox.Show("The details you have enterred are incorrect. Please try again", "Incorrect details", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         client.Dispose();
 
                         btnSend.Enabled = false; 
@@ -219,7 +226,6 @@ namespace TCPClient
                     rows = 0;
                 }
             }
-
             restartGame();
         }
 
@@ -302,7 +308,7 @@ namespace TCPClient
             {
                 gameOver("You finished!", true);
 
-
+                // Attempting to delete the picture boxes so I can restart the game without a re-log
                 foreach (PictureBox pics in pictureBoxList.ToList())
                 {
                     pics.Dispose();

@@ -35,7 +35,6 @@ namespace TCPServer
             server.Events.DataReceived += Events_DataReceived;
 
             GameTick.Start();
-
         }
 
         string name;
