@@ -119,12 +119,9 @@ namespace TCPServer
             string sql = "SELECT COUNT(*) FROM playerData WHERE name = @name AND password = @password";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
 
-            // Hash the password using SHA256
-            string hashedPassword = GetHashedPassword(password);
-
             // Set the parameter values for the SQL command
             command.Parameters.AddWithValue("@name", name);
-            command.Parameters.AddWithValue("@password", hashedPassword);
+            command.Parameters.AddWithValue("@password", password);
 
             // Execute the SQL command and get the count of matching rows
             int count = Convert.ToInt32(command.ExecuteScalar());
@@ -147,23 +144,6 @@ namespace TCPServer
             }
 
             return result;
-        }
-
-        private string GetHashedPassword(string password)
-        {
-            using (SHA256 sha256Hash = SHA256.Create())
-            {
-                // Convert the password string to a byte array
-                byte[] bytes = Encoding.UTF8.GetBytes(password);
-
-                // Compute the hash value of the byte array
-                byte[] hash = sha256Hash.ComputeHash(bytes);
-
-                // Convert the hash to a base64-encoded string
-                string hashedPassword = Convert.ToBase64String(hash);
-
-                return hashedPassword;
-            }
         }
 
         public int addPlayer(string name, string password, string ip)

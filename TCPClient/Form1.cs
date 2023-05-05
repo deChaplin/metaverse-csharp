@@ -3,6 +3,7 @@ using System.Globalization;
 using System.IO.Packaging;
 using System.Security.Cryptography;
 using System.Text;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace TCPClient
@@ -159,10 +160,28 @@ namespace TCPClient
 
                 client.Send("+" + txtName.Text);
                 Thread.Sleep(1000);
-                client.Send("/" + txtPassword.Text);
+                client.Send("/" + encryptString(txtPassword.Text));
                 Thread.Sleep(1000);
                 client.Send("Hi!");
             });
+        }
+
+        private string encryptString(string input)
+        {
+            string output;
+
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                // Convert the password string to a byte array
+                byte[] bytes = Encoding.UTF8.GetBytes(input);
+
+                // Compute the hash value of the byte array
+                byte[] hash = sha256Hash.ComputeHash(bytes);
+
+                // Convert the hash to a base64-encoded string
+                output = Convert.ToBase64String(hash);
+            }
+            return output;
         }
 
         private void btnMatchmake_Click(object sender, EventArgs e)
