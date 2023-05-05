@@ -32,8 +32,6 @@
             this.txtIP = new System.Windows.Forms.TextBox();
             this.txtChat = new System.Windows.Forms.TextBox();
             this.lblServer = new System.Windows.Forms.Label();
-            this.btnSend = new System.Windows.Forms.Button();
-            this.btnConnect = new System.Windows.Forms.Button();
             this.txtMessage = new System.Windows.Forms.TextBox();
             this.lblMessage = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
@@ -45,20 +43,33 @@
             this.lblTime = new System.Windows.Forms.Label();
             this.btnRestart = new System.Windows.Forms.Button();
             this.GameTimer = new System.Windows.Forms.Timer(this.components);
-            this.btnMatchmake = new System.Windows.Forms.Button();
+            this.btnSend = new TCPClient.RoundedButtons();
+            this.btnMatchmake = new TCPClient.RoundedButtons();
+            this.roundedButtons2 = new TCPClient.RoundedButtons();
+            this.btnConnect = new TCPClient.RoundedButtons();
+            this.btnMin = new System.Windows.Forms.Button();
+            this.btnClose = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // txtIP
             // 
-            this.txtIP.Location = new System.Drawing.Point(59, 9);
+            this.txtIP.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.txtIP.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtIP.Enabled = false;
+            this.txtIP.ForeColor = System.Drawing.Color.White;
+            this.txtIP.Location = new System.Drawing.Point(59, 11);
             this.txtIP.Name = "txtIP";
-            this.txtIP.Size = new System.Drawing.Size(232, 23);
+            this.txtIP.Size = new System.Drawing.Size(232, 16);
             this.txtIP.TabIndex = 0;
             this.txtIP.Text = "127.0.0.1:9000";
             // 
             // txtChat
             // 
+            this.txtChat.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.txtChat.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtChat.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtChat.ForeColor = System.Drawing.Color.White;
             this.txtChat.Location = new System.Drawing.Point(9, 128);
             this.txtChat.Multiline = true;
             this.txtChat.Name = "txtChat";
@@ -70,43 +81,28 @@
             // lblServer
             // 
             this.lblServer.AutoSize = true;
-            this.lblServer.Location = new System.Drawing.Point(11, 12);
+            this.lblServer.ForeColor = System.Drawing.Color.White;
+            this.lblServer.Location = new System.Drawing.Point(12, 11);
             this.lblServer.Name = "lblServer";
             this.lblServer.Size = new System.Drawing.Size(42, 15);
             this.lblServer.TabIndex = 3;
             this.lblServer.Text = "Server:";
             // 
-            // btnSend
-            // 
-            this.btnSend.Location = new System.Drawing.Point(318, 426);
-            this.btnSend.Name = "btnSend";
-            this.btnSend.Size = new System.Drawing.Size(75, 23);
-            this.btnSend.TabIndex = 4;
-            this.btnSend.Text = "Send";
-            this.btnSend.UseVisualStyleBackColor = true;
-            this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
-            // 
-            // btnConnect
-            // 
-            this.btnConnect.Location = new System.Drawing.Point(319, 9);
-            this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(75, 23);
-            this.btnConnect.TabIndex = 5;
-            this.btnConnect.Text = "Connect";
-            this.btnConnect.UseVisualStyleBackColor = true;
-            this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
-            // 
             // txtMessage
             // 
-            this.txtMessage.Location = new System.Drawing.Point(70, 401);
+            this.txtMessage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.txtMessage.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtMessage.ForeColor = System.Drawing.Color.White;
+            this.txtMessage.Location = new System.Drawing.Point(70, 403);
             this.txtMessage.Name = "txtMessage";
             this.txtMessage.PlaceholderText = "...";
-            this.txtMessage.Size = new System.Drawing.Size(323, 23);
+            this.txtMessage.Size = new System.Drawing.Size(323, 16);
             this.txtMessage.TabIndex = 6;
             // 
             // lblMessage
             // 
             this.lblMessage.AutoSize = true;
+            this.lblMessage.ForeColor = System.Drawing.Color.White;
             this.lblMessage.Location = new System.Drawing.Point(8, 404);
             this.lblMessage.Name = "lblMessage";
             this.lblMessage.Size = new System.Drawing.Size(56, 15);
@@ -115,14 +111,18 @@
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(59, 40);
+            this.txtName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.txtName.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtName.ForeColor = System.Drawing.Color.White;
+            this.txtName.Location = new System.Drawing.Point(59, 43);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(232, 23);
+            this.txtName.Size = new System.Drawing.Size(232, 16);
             this.txtName.TabIndex = 8;
             // 
             // lvlName
             // 
             this.lvlName.AutoSize = true;
+            this.lvlName.ForeColor = System.Drawing.Color.White;
             this.lvlName.Location = new System.Drawing.Point(12, 43);
             this.lvlName.Name = "lvlName";
             this.lvlName.Size = new System.Drawing.Size(42, 15);
@@ -132,6 +132,7 @@
             // lblPassword
             // 
             this.lblPassword.AutoSize = true;
+            this.lblPassword.ForeColor = System.Drawing.Color.White;
             this.lblPassword.Location = new System.Drawing.Point(12, 72);
             this.lblPassword.Name = "lblPassword";
             this.lblPassword.Size = new System.Drawing.Size(33, 15);
@@ -140,14 +141,17 @@
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(59, 69);
+            this.txtPassword.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.txtPassword.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtPassword.ForeColor = System.Drawing.Color.White;
+            this.txtPassword.Location = new System.Drawing.Point(59, 72);
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(232, 23);
+            this.txtPassword.Size = new System.Drawing.Size(232, 16);
             this.txtPassword.TabIndex = 10;
             // 
             // pictureBox1
             // 
-            this.pictureBox1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.pictureBox1.BackColor = System.Drawing.Color.White;
             this.pictureBox1.Location = new System.Drawing.Point(400, 8);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(1);
             this.pictureBox1.Name = "pictureBox1";
@@ -158,6 +162,7 @@
             // lblMismatch
             // 
             this.lblMismatch.AutoSize = true;
+            this.lblMismatch.ForeColor = System.Drawing.Color.White;
             this.lblMismatch.Location = new System.Drawing.Point(934, 88);
             this.lblMismatch.Name = "lblMismatch";
             this.lblMismatch.Size = new System.Drawing.Size(111, 15);
@@ -167,6 +172,7 @@
             // lblTime
             // 
             this.lblTime.AutoSize = true;
+            this.lblTime.ForeColor = System.Drawing.Color.White;
             this.lblTime.Location = new System.Drawing.Point(934, 110);
             this.lblTime.Name = "lblTime";
             this.lblTime.Size = new System.Drawing.Size(56, 15);
@@ -188,22 +194,133 @@
             this.GameTimer.Interval = 1000;
             this.GameTimer.Tick += new System.EventHandler(this.TimerEvent);
             // 
+            // btnSend
+            // 
+            this.btnSend.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.btnSend.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.btnSend.BorderColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.btnSend.BorderColor1 = System.Drawing.SystemColors.ControlDarkDark;
+            this.btnSend.BorderRadius = 15;
+            this.btnSend.BorderRadius1 = 15;
+            this.btnSend.BorderSize = 1;
+            this.btnSend.BorderSize1 = 1;
+            this.btnSend.FlatAppearance.BorderSize = 0;
+            this.btnSend.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSend.ForeColor = System.Drawing.Color.White;
+            this.btnSend.Location = new System.Drawing.Point(315, 424);
+            this.btnSend.Name = "btnSend";
+            this.btnSend.Size = new System.Drawing.Size(78, 27);
+            this.btnSend.TabIndex = 24;
+            this.btnSend.Text = "SEND";
+            this.btnSend.TextColor = System.Drawing.Color.White;
+            this.btnSend.UseVisualStyleBackColor = false;
+            this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
+            // 
             // btnMatchmake
             // 
-            this.btnMatchmake.Location = new System.Drawing.Point(934, 33);
+            this.btnMatchmake.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.btnMatchmake.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.btnMatchmake.BorderColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.btnMatchmake.BorderColor1 = System.Drawing.SystemColors.ControlDarkDark;
+            this.btnMatchmake.BorderRadius = 15;
+            this.btnMatchmake.BorderRadius1 = 15;
+            this.btnMatchmake.BorderSize = 1;
+            this.btnMatchmake.BorderSize1 = 1;
+            this.btnMatchmake.FlatAppearance.BorderSize = 0;
+            this.btnMatchmake.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMatchmake.ForeColor = System.Drawing.Color.White;
+            this.btnMatchmake.Location = new System.Drawing.Point(932, 31);
             this.btnMatchmake.Name = "btnMatchmake";
-            this.btnMatchmake.Size = new System.Drawing.Size(75, 23);
-            this.btnMatchmake.TabIndex = 18;
-            this.btnMatchmake.Text = "Start";
-            this.btnMatchmake.UseVisualStyleBackColor = true;
+            this.btnMatchmake.Size = new System.Drawing.Size(78, 27);
+            this.btnMatchmake.TabIndex = 25;
+            this.btnMatchmake.Text = "START";
+            this.btnMatchmake.TextColor = System.Drawing.Color.White;
+            this.btnMatchmake.UseVisualStyleBackColor = false;
             this.btnMatchmake.Click += new System.EventHandler(this.btnMatchmake_Click);
+            // 
+            // roundedButtons2
+            // 
+            this.roundedButtons2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.roundedButtons2.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.roundedButtons2.BorderColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.roundedButtons2.BorderColor1 = System.Drawing.SystemColors.ControlDarkDark;
+            this.roundedButtons2.BorderRadius = 15;
+            this.roundedButtons2.BorderRadius1 = 15;
+            this.roundedButtons2.BorderSize = 1;
+            this.roundedButtons2.BorderSize1 = 1;
+            this.roundedButtons2.FlatAppearance.BorderSize = 0;
+            this.roundedButtons2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.roundedButtons2.ForeColor = System.Drawing.Color.White;
+            this.roundedButtons2.Location = new System.Drawing.Point(1015, 62);
+            this.roundedButtons2.Name = "roundedButtons2";
+            this.roundedButtons2.Size = new System.Drawing.Size(78, 27);
+            this.roundedButtons2.TabIndex = 26;
+            this.roundedButtons2.Text = "SEND";
+            this.roundedButtons2.TextColor = System.Drawing.Color.White;
+            this.roundedButtons2.UseVisualStyleBackColor = false;
+            // 
+            // btnConnect
+            // 
+            this.btnConnect.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.btnConnect.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.btnConnect.BorderColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.btnConnect.BorderColor1 = System.Drawing.SystemColors.ControlDarkDark;
+            this.btnConnect.BorderRadius = 15;
+            this.btnConnect.BorderRadius1 = 15;
+            this.btnConnect.BorderSize = 1;
+            this.btnConnect.BorderSize1 = 1;
+            this.btnConnect.FlatAppearance.BorderSize = 0;
+            this.btnConnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnConnect.ForeColor = System.Drawing.Color.White;
+            this.btnConnect.Location = new System.Drawing.Point(314, 5);
+            this.btnConnect.Name = "btnConnect";
+            this.btnConnect.Size = new System.Drawing.Size(79, 27);
+            this.btnConnect.TabIndex = 27;
+            this.btnConnect.Text = "LOG IN";
+            this.btnConnect.TextColor = System.Drawing.Color.White;
+            this.btnConnect.UseVisualStyleBackColor = false;
+            this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
+            // 
+            // btnMin
+            // 
+            this.btnMin.FlatAppearance.BorderSize = 0;
+            this.btnMin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMin.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnMin.ForeColor = System.Drawing.Color.White;
+            this.btnMin.Location = new System.Drawing.Point(1111, -2);
+            this.btnMin.Name = "btnMin";
+            this.btnMin.Size = new System.Drawing.Size(24, 31);
+            this.btnMin.TabIndex = 29;
+            this.btnMin.Text = "—";
+            this.btnMin.UseVisualStyleBackColor = true;
+            this.btnMin.Click += new System.EventHandler(this.btnMin_Click);
+            // 
+            // btnClose
+            // 
+            this.btnClose.FlatAppearance.BorderSize = 0;
+            this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClose.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnClose.ForeColor = System.Drawing.Color.White;
+            this.btnClose.Location = new System.Drawing.Point(1141, -2);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(24, 31);
+            this.btnClose.TabIndex = 28;
+            this.btnClose.Text = "✕";
+            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(56)))), ((int)(((byte)(56)))));
             this.ClientSize = new System.Drawing.Size(1167, 457);
+            this.Controls.Add(this.btnMin);
+            this.Controls.Add(this.btnClose);
+            this.Controls.Add(this.btnConnect);
+            this.Controls.Add(this.roundedButtons2);
             this.Controls.Add(this.btnMatchmake);
+            this.Controls.Add(this.btnSend);
             this.Controls.Add(this.btnRestart);
             this.Controls.Add(this.lblTime);
             this.Controls.Add(this.lblMismatch);
@@ -214,18 +331,17 @@
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.lblMessage);
             this.Controls.Add(this.txtMessage);
-            this.Controls.Add(this.btnConnect);
-            this.Controls.Add(this.btnSend);
             this.Controls.Add(this.lblServer);
             this.Controls.Add(this.txtChat);
             this.Controls.Add(this.txtIP);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.HelpButton = true;
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "TCP/IP Client";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -237,8 +353,6 @@
         private TextBox txtIP;
         private TextBox txtChat;
         private Label lblServer;
-        private Button btnSend;
-        private Button btnConnect;
         private TextBox txtMessage;
         private Label lblMessage;
         private TextBox txtName;
@@ -250,6 +364,11 @@
         private Label lblTime;
         private Button btnRestart;
         private System.Windows.Forms.Timer GameTimer;
-        private Button btnMatchmake;
+        private RoundedButtons btnSend;
+        private RoundedButtons btnMatchmake;
+        private RoundedButtons roundedButtons2;
+        private RoundedButtons btnConnect;
+        private Button btnMin;
+        private Button btnClose;
     }
 }

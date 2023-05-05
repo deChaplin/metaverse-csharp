@@ -1,5 +1,6 @@
 using SuperSimpleTcp;
 using System.Globalization;
+using System.IO.Packaging;
 using System.Security.Cryptography;
 using System.Text;
 using System.Xml.Linq;
@@ -20,9 +21,14 @@ namespace TCPClient
         bool isGameOver = false;
         string opponent;
 
+        public const int WM_NCLBUTTONDOWN = 0xA1;
+        public const int HT_CAPTION = 0x2;
+
         public Form1()
         {
             InitializeComponent();
+            this.FormBorderStyle = FormBorderStyle.None;
+            Region = System.Drawing.Region.FromHrgn(Win32.CreateRoundRectRgn(0, 0, Width, Height, 20, 20));
         }
 
         SimpleTcpClient client;
@@ -84,6 +90,12 @@ namespace TCPClient
             btnSend.Enabled = false;
             btnMatchmake.Enabled = false;
             btnRestart.Enabled = false;
+        }
+
+        private void Form1_MouseDown(object sender, MouseEventArgs e)
+        {
+            Win32.ReleaseCapture();
+            Win32.SendMessage(this.Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
         }
 
         private void Events_DataReceived(object sender, DataReceivedEventArgs e)
@@ -343,6 +355,16 @@ namespace TCPClient
             btnMatchmake.Enabled = true;
             Thread.Sleep(1000);
             pictureBoxList.Clear();
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void btnMin_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
         }
     }
 }
