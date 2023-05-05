@@ -8,6 +8,7 @@ using System.Data;
 using System.Xml.XPath;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Xml.Linq;
+using System.Security.Cryptography;
 
 namespace TCPServer
 {
@@ -118,9 +119,12 @@ namespace TCPServer
             string sql = "SELECT COUNT(*) FROM playerData WHERE name = @name AND password = @password";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
 
+            // Hash the password using SHA256
+            string hashedPassword = GetHashedPassword(password);
+
             // Set the parameter values for the SQL command
             command.Parameters.AddWithValue("@name", name);
-            command.Parameters.AddWithValue("@password", password);
+            command.Parameters.AddWithValue("@password", hashedPassword);
 
             // Execute the SQL command and get the count of matching rows
             int count = Convert.ToInt32(command.ExecuteScalar());
@@ -143,6 +147,23 @@ namespace TCPServer
             }
 
             return result;
+        }
+
+        private string GetHashedPassword(string password)
+        {
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                // Convert the password string to a byte array
+                byte[] bytes = Encoding.UTF8.GetBytes(password);
+
+                // Compute the hash value of the byte array
+                byte[] hash = sha256Hash.ComputeHash(bytes);
+
+                // Convert the hash to a base64-encoded string
+                string hashedPassword = Convert.ToBase64String(hash);
+
+                return hashedPassword;
+            }
         }
 
         public int addPlayer(string name, string password, string ip)
@@ -281,7 +302,7 @@ namespace TCPServer
             // Close the connection
             connection.Close();
 
-            string ip = result.ToString();
+            string ip = (string)result;
 
             return ip;
         }
@@ -307,7 +328,7 @@ namespace TCPServer
             // Close the connection
             connection.Close();
 
-            int elo = int.Parse(result.ToString());
+            int elo = int.Parse((string)result);
 
             return elo;
         }
@@ -381,9 +402,29 @@ namespace TCPServer
             return name;
         }
 
-        public void leaderBoard()
+        public DataTable getLeaderBoard()
         {
+            // Open the connection
+            string databaseFile = "mydatabase.db";
+            string connectionString = "Data Source=" + databaseFile + ";Version=3;";
+            SQLiteConnection connection = new SQLiteConnection(connectionString);
+            connection.Open();
 
+            // Define the SQL command with parameters for the data to be selected
+            string sql = "SELECT name, elo FROM playerData";
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
+
+            // Create the datatable to store the result
+            DataTable dt = new DataTable();
+
+            // Execute the SQL command and get the result
+            SQLiteDataAdapter dataAdapter = new SQLiteDataAdapter(command);
+            dataAdapter.Fill(dt);
+
+            // Close the connection
+            connection.Close();
+
+            return dt;
         }
     }
 }

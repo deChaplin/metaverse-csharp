@@ -40,6 +40,8 @@
             this.lstClientIP = new System.Windows.Forms.ListBox();
             this.lblClientIP = new System.Windows.Forms.Label();
             this.GameTick = new System.Windows.Forms.Timer(this.components);
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // txtIP
@@ -134,11 +136,21 @@
             this.GameTick.Interval = 1000;
             this.GameTick.Tick += new System.EventHandler(this.GameTick_Tick);
             // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(607, 42);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowTemplate.Height = 25;
+            this.dataGridView1.Size = new System.Drawing.Size(244, 259);
+            this.dataGridView1.TabIndex = 10;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(611, 364);
+            this.ClientSize = new System.Drawing.Size(859, 364);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.lblClientIP);
             this.Controls.Add(this.lstClientIP);
             this.Controls.Add(this.lblMessage);
@@ -151,6 +163,7 @@
             this.Name = "Form1";
             this.Text = "TCP/IP Server";
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -169,5 +182,6 @@
         private ListBox lstClientIP;
         private Label lblClientIP;
         private System.Windows.Forms.Timer GameTick;
+        private DataGridView dataGridView1;
     }
 }

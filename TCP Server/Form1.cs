@@ -1,5 +1,6 @@
 using SuperSimpleTcp;
 using System;
+using System.ComponentModel;
 using System.Security.Authentication.ExtendedProtection;
 using System.Text;
 
@@ -157,6 +158,13 @@ namespace TCPServer
                 gameSetup(player1, player2);
                 //gameSetup(player2);
             }
+
+            // Update leader board
+            dataGridView1.DataSource = db.getLeaderBoard();
+            // Set the datagridview to sort by elo
+            dataGridView1.Columns["elo"].SortMode = DataGridViewColumnSortMode.Automatic;
+            // Set the soft property
+            dataGridView1.Sort(dataGridView1.Columns["elo"], ListSortDirection.Descending);
         }
 
         private void gameSetup(string ip1, string ip2)
