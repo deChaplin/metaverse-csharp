@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.txtIP = new System.Windows.Forms.TextBox();
             this.txtChat = new System.Windows.Forms.TextBox();
             this.lblServer = new System.Windows.Forms.Label();
@@ -49,6 +50,7 @@
             this.btnConnect = new TCPClient.RoundedButtons();
             this.btnMin = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
+            this.btnHelp = new TCPClient.RoundedButtons();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -309,12 +311,36 @@
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
+            // btnHelp
+            // 
+            this.btnHelp.BackColor = System.Drawing.Color.Transparent;
+            this.btnHelp.BackgroundColor = System.Drawing.Color.Transparent;
+            this.btnHelp.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnHelp.BackgroundImage")));
+            this.btnHelp.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnHelp.BorderColor = System.Drawing.Color.PaleVioletRed;
+            this.btnHelp.BorderColor1 = System.Drawing.Color.PaleVioletRed;
+            this.btnHelp.BorderRadius = 0;
+            this.btnHelp.BorderRadius1 = 0;
+            this.btnHelp.BorderSize = 0;
+            this.btnHelp.BorderSize1 = 0;
+            this.btnHelp.FlatAppearance.BorderSize = 0;
+            this.btnHelp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnHelp.ForeColor = System.Drawing.Color.White;
+            this.btnHelp.Location = new System.Drawing.Point(1087, 6);
+            this.btnHelp.Name = "btnHelp";
+            this.btnHelp.Size = new System.Drawing.Size(18, 18);
+            this.btnHelp.TabIndex = 30;
+            this.btnHelp.TextColor = System.Drawing.Color.White;
+            this.btnHelp.UseVisualStyleBackColor = false;
+            this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(56)))), ((int)(((byte)(56)))));
             this.ClientSize = new System.Drawing.Size(1167, 457);
+            this.Controls.Add(this.btnHelp);
             this.Controls.Add(this.btnMin);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnConnect);
@@ -370,5 +396,6 @@
         private RoundedButtons btnConnect;
         private Button btnMin;
         private Button btnClose;
+        private RoundedButtons btnHelp;
     }
 }

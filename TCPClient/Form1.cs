@@ -366,5 +366,11 @@ namespace TCPClient
         {
             this.WindowState = FormWindowState.Minimized;
         }
+
+        private void btnHelp_Click(object sender, EventArgs e)
+        {
+            helpForm hf = new helpForm();
+            hf.Show();
+        }
     }
 }
