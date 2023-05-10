@@ -14,7 +14,7 @@ namespace TCPClient
             Application.Run(new Form1());
 
             //loginForm loginf = new loginForm();
-            Application.Run(new loginForm());
+            //Application.Run(new loginForm());
         }
     }
 }

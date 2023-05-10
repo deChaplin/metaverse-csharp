@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(helpForm));
             this.btnMin = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -73,7 +74,7 @@
             this.textBox1.ReadOnly = true;
             this.textBox1.Size = new System.Drawing.Size(556, 377);
             this.textBox1.TabIndex = 32;
-            this.textBox1.Text = "1. Help\r\n2. Help 2\r\n3. Help 3\r\n";
+            this.textBox1.Text = resources.GetString("textBox1.Text");
             // 
             // lblHelp
             // 

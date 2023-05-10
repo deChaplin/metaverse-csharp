@@ -57,4 +57,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="textBox1.Text" xml:space="preserve">
+    <value>1. Create an account or sign in.
+2. Press play .
+3. When another player is found you will automatically be put into a game.
+4. Match the animal pictures.
+
+Hints
+You have to select the first tile and then the second and press again to take your next 'turn'.
+Complete your board before your oppenant an time limit to win!
+
+</value>
+  </data>
 </root>
