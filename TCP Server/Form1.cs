@@ -107,7 +107,7 @@ namespace TCPServer
                     break;
             }
 
-            if (db.getOnlineStatus(name) == false && name != null && psw != null)
+            if (db.getOnlineStatus(db.getName(e.IpPort)) == false && name != null && psw != null)
             {
                 logging(name, psw, $"{e.IpPort}");
 
@@ -190,36 +190,35 @@ namespace TCPServer
             // If it does check login details
             // If it doesn't create the user
 
-            if (db.getOnlineStatus(name))
-            {
-                closeClient(ip, "Incorrect login details or account is logged in somewhere else.");
-            }
-            else
-            {
-                result = db.checkUserName(name, password, ip);
+            //MessageBox.Show(db.getOnlineStatus(name).ToString());
+            
+            result = db.checkUserName(name, password, ip);
 
-                switch (result)
-                {
-                    case 1:
-                        //MessageBox.Show(name);
-                        relayMessage($"Server: {name} has connected", "");
-                        this.Invoke((MethodInvoker)delegate
-                        {
-                            lstClientIP.Items.Add(name + " : " + ip); // Adds the client to the list
-                        });
-                        
-                        db.setIp(name, ip);
-                        db.setOnlineStatus(ip, "online");
-                        break;
-                    case 2:
-                        // server.Send(ip, "Username or password incorrect. Please restart and retry");
-                        closeClient(ip, "Incorrect login details. Please restart the app.");
-                        break;
-                    case 3:
-                        server.Send(ip, "Your account has been created!");
-                        db.setOnlineStatus(ip, "online");
-                        break;
-                }
+            switch (result)
+            {
+                case 1:
+                    //MessageBox.Show(name);
+                    relayMessage($"Server: {name} has connected", "");
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        lstClientIP.Items.Add(name + " : " + ip); // Adds the client to the list
+                    });
+
+                    db.setIp(name, ip);
+                    db.setOnlineStatus(ip, "online");
+                    break;
+                    
+                case 2:
+                    // server.Send(ip, "Username or password incorrect. Please restart and retry");
+                    closeClient(ip, "Incorrect login details. Please restart the app.");
+                    break;
+                case 3:
+                    server.Send(ip, "Your account has been created!");
+                    db.setOnlineStatus(ip, "online");
+                    break;
+                case 4:
+                    closeClient(ip, "Incorrect login details or account is logged in somewhere else.");
+                    break;
             }
         }
 
@@ -235,7 +234,7 @@ namespace TCPServer
             this.Invoke((MethodInvoker)delegate
             {
                 txtChat.Text += $"{e.IpPort} disconnected.{Environment.NewLine}";   // Displays a disconnect message
-                lstClientIP.Items.Remove(e.IpPort); // Removes the client from the list
+                lstClientIP.Items.Remove(db.getName(e.IpPort) + " : " + e.IpPort); // Removes the client from the list
             });
 
             db.setOnlineStatus($"{e.IpPort}", "offline");

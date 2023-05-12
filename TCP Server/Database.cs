@@ -112,20 +112,25 @@ namespace TCPServer
 
             connection.Close();
 
-
-            // Check if the name already exists
-            if (count > 0)
+            if (getOnlineStatus(name))
             {
-                // Name already exists
-                result = checkPlayerDetails(name, password, ip); 
+                result = 4;
             }
             else
             {
-                // Name does not exist
-                // Insert the new user into the playerData table
-                result = addPlayer(name, password, ip);
+                // Check if the name already exists
+                if (count > 0)
+                {
+                    // Name already exists
+                    result = checkPlayerDetails(name, password, ip);
+                }
+                else
+                {
+                    // Name does not exist
+                    // Insert the new user into the playerData table
+                    result = addPlayer(name, password, ip);
+                }
             }
-
             return result;
         }
 
@@ -152,18 +157,17 @@ namespace TCPServer
 
             connection.Close();
 
-
             // Check if the user exists and the password is correct
             if (count > 0)
             {
                 // User exists and password is correct
-                Console.WriteLine("User logged in successfully.");
+                //Console.WriteLine("User logged in successfully.");
                 result = 1;
             }
             else
             {
                 // User does not exist or password is incorrect
-                Console.WriteLine("Invalid username or password.");
+                //Console.WriteLine("Invalid username or password.");
                 result = 2;
             }
 
@@ -228,7 +232,7 @@ namespace TCPServer
                 {
                     result = true;
                 }
-                else if (status == "offline")
+                else
                 {
                     result = false; 
                 }

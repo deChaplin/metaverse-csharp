@@ -10,7 +10,7 @@ namespace TCPClient
 {
     public partial class Form1 : Form
     {
-        List<int> serverNum = new List<int> ();
+        List<int> serverNum = new List<int>();
         string firstChoice;
         string secondChoice;
         int attempts;
@@ -36,7 +36,7 @@ namespace TCPClient
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
-            try 
+            try
             {
                 // Checks if the username or password is less than 5 characters or contains whitespaces
                 if (txtName.Text.Length < 5 || txtPassword.Text.Length < 5 || txtName.Text.Contains(" ") || txtPassword.Text.Contains(" "))
@@ -117,10 +117,10 @@ namespace TCPClient
                         MessageBox.Show("The details you have enterred are incorrect. Please try again", "Incorrect details", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         client.Dispose();
 
-                        btnSend.Enabled = false; 
-                        btnConnect.Enabled = true; 
-                        txtName.Enabled = true;    
-                        txtPassword.Enabled = true;   
+                        btnSend.Enabled = false;
+                        btnConnect.Enabled = true;
+                        txtName.Enabled = true;
+                        txtPassword.Enabled = true;
                         break;
                     case "*":
                         // Image position
@@ -162,7 +162,6 @@ namespace TCPClient
                 Thread.Sleep(1000);
                 client.Send("/" + encryptString(txtPassword.Text));
                 Thread.Sleep(1000);
-                client.Send("Hi!");
             });
         }
 
@@ -184,16 +183,16 @@ namespace TCPClient
             return output;
         }
 
+        //   The game
+        //      |
+        //      |
+        //      V
+
         private void btnMatchmake_Click(object sender, EventArgs e)
         {
             client.Send("#");
             btnMatchmake.Enabled = false;
         }
-
-        //   The game
-        //      |
-        //      |
-        //      V
 
         private void setupGame()
         {
@@ -229,7 +228,7 @@ namespace TCPClient
             int leftPos = 480;
             int topPos = 20;
             int rows = 0;
-            
+
             // Dynamically create the picture boxes
             for (int i = 0; i < 16; i++)
             {
@@ -283,20 +282,20 @@ namespace TCPClient
                 return;
             }
 
-            if (firstChoice == null) 
+            if (firstChoice == null)
             {
                 picA = sender as PictureBox;
                 if (picA.Tag != null && picA.Image == null)
                 {
-                    picA.Image = Image.FromFile("../../../pics/"+(string)picA.Tag + ".png");
+                    picA.Image = Image.FromFile("../../../pics/" + (string)picA.Tag + ".png");
                     firstChoice = (string)picA.Tag;
                 }
             }
-            else if (secondChoice == null) 
+            else if (secondChoice == null)
             {
                 picB = sender as PictureBox;
 
-                if (picB.Tag != null && picB.Image == null) 
+                if (picB.Tag != null && picB.Image == null)
                 {
                     picB.Image = Image.FromFile("../../../pics/" + (string)picB.Tag + ".png");
                     secondChoice = (string)picB.Tag;
@@ -307,7 +306,7 @@ namespace TCPClient
                 checkPairs(picA, picB);
             }
         }
-        
+
         private void checkPairs(PictureBox A, PictureBox B)
         {
             // Checks if the 2 images selected are correct
@@ -327,9 +326,9 @@ namespace TCPClient
             secondChoice = null;
 
             // reset images of picture boxes
-            foreach (PictureBox pics in pictureBoxList.ToList()) 
+            foreach (PictureBox pics in pictureBoxList.ToList())
             {
-                if (pics.Tag != null) 
+                if (pics.Tag != null)
                 {
                     pics.Image = null;
                 }
