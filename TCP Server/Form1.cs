@@ -29,7 +29,7 @@ namespace TCPServer
         {
             db.main();
 
-            btnSend.Enabled= false; // Disables start button
+            btnSend.Enabled = false; // Disables start button
             server = new SimpleTcpServer(txtIP.Text);   // Sets the IP to whatever is in the IP text box
             server.Events.ClientConnected += Events_ClientConnected;
             server.Events.ClientDisconnected += Events_ClientDisconnected;
@@ -94,14 +94,14 @@ namespace TCPServer
 
                     this.Invoke((MethodInvoker)delegate
                     {
-                        txtChat.Text += $"Adding elo!{Environment.NewLine}";  
+                        txtChat.Text += $"Adding elo!{Environment.NewLine}";
                     });
                     break;
                 case "£":
                     // A player has lost
                     this.Invoke((MethodInvoker)delegate
                     {
-                        txtChat.Text += $"Removing elo!{Environment.NewLine}"; 
+                        txtChat.Text += $"Removing elo!{Environment.NewLine}";
                     });
                     db.setElo(db.getName($"{e.IpPort}"), false);
                     break;
@@ -191,9 +191,10 @@ namespace TCPServer
             // If it doesn't create the user
             result = db.checkUserName(name, password, ip);
 
-            switch (result) 
+            switch (result)
             {
                 case 1:
+                    MessageBox.Show(name);
                     relayMessage($"Server: {name} has connected", "");
                     db.setIp(name, ip);
                     db.setOnlineStatus(ip, "online");
@@ -238,11 +239,11 @@ namespace TCPServer
                     });
                 }
             }
-            catch 
+            catch
             {
                 MessageBox.Show("Failed to remove client from list");
             }
-            
+
         }
 
         private void Events_ClientConnected(object? sender, ConnectionEventArgs e)
@@ -257,9 +258,9 @@ namespace TCPServer
 
         private void btnSend_Click(object sender, EventArgs e)
         {
-            if (server.IsListening) 
+            if (server.IsListening)
             {
-                if(!string.IsNullOrEmpty(txtMessage.Text) && lstClientIP.SelectedItem != null) // Checks if the message is empty and a client is selected
+                if (!string.IsNullOrEmpty(txtMessage.Text) && lstClientIP.SelectedItem != null) // Checks if the message is empty and a client is selected
                 {
                     server.Send(lstClientIP.SelectedItem.ToString(), txtMessage.Text);  // Sends the message to the selected client
                     this.Invoke((MethodInvoker)delegate
@@ -273,13 +274,21 @@ namespace TCPServer
 
         private void relayMessage(string testing, string senderIP)
         {
-            for (int i = 0; i < lstClientIP.Items.Count; i++) 
+            for (int i = 0; i < lstClientIP.Items.Count; i++)
             {
                 if (lstClientIP.Items[i].ToString() != senderIP)
                 {
                     server.Send(lstClientIP.Items[i].ToString(), "+" + testing);  // Sends the message to the selected client
                 }
             };
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (db.checkDB())
+            {
+                db.setAllOffline();
+            }
         }
     }
 }

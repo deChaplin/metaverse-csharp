@@ -37,6 +37,30 @@ namespace TCPServer
             connection.Close();
         }
 
+        public bool checkDB()
+        {
+            // Open the connection
+            string databaseFile = "mydatabase.db";
+            string connectionString = "Data Source=" + databaseFile + ";Version=3;";
+            SQLiteConnection connection = new SQLiteConnection(connectionString);
+            connection.Open();
+
+            // Define the SQL command to count the number of rows in the table
+            string sql = "SELECT COUNT(*) FROM playerData";
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
+
+            // Execute the SQL command and retrieve the count
+            int rowCount = Convert.ToInt32(command.ExecuteScalar());
+
+            // Check if there are any entries in the table
+            bool hasEntries = rowCount > 0;
+
+            // Close the connection
+            connection.Close();
+
+            return hasEntries;
+        }
+
         void openDatabase()
         {
             string databaseFile = "mydatabase.db";
@@ -232,6 +256,24 @@ namespace TCPServer
             // Set the parameter values for the SQL command
             command.Parameters.AddWithValue("@status", status);
             command.Parameters.AddWithValue("@currentIP", currentIP);
+
+            // Execute the SQL command to update the "status" column for the user
+            command.ExecuteNonQuery();
+
+            connection.Close();
+        }
+
+        public void setAllOffline()
+        {
+            // Open the connection
+            string databaseFile = "mydatabase.db";
+            string connectionString = "Data Source=" + databaseFile + ";Version=3;";
+            SQLiteConnection connection = new SQLiteConnection(connectionString);
+            connection.Open();
+
+            // Define the SQL command with parameters for the data to be updated
+            string sql = "UPDATE playerData SET status = 'offline'";
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
 
             // Execute the SQL command to update the "status" column for the user
             command.ExecuteNonQuery();

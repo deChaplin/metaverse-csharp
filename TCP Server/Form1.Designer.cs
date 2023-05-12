@@ -28,145 +28,144 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.txtIP = new System.Windows.Forms.TextBox();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.txtChat = new System.Windows.Forms.TextBox();
-            this.lblServer = new System.Windows.Forms.Label();
-            this.btnSend = new System.Windows.Forms.Button();
-            this.btnStart = new System.Windows.Forms.Button();
-            this.txtMessage = new System.Windows.Forms.TextBox();
-            this.lblMessage = new System.Windows.Forms.Label();
-            this.lstClientIP = new System.Windows.Forms.ListBox();
-            this.lblClientIP = new System.Windows.Forms.Label();
-            this.GameTick = new System.Windows.Forms.Timer(this.components);
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            this.SuspendLayout();
+            components = new System.ComponentModel.Container();
+            txtIP = new TextBox();
+            contextMenuStrip1 = new ContextMenuStrip(components);
+            txtChat = new TextBox();
+            lblServer = new Label();
+            btnSend = new Button();
+            btnStart = new Button();
+            txtMessage = new TextBox();
+            lblMessage = new Label();
+            lstClientIP = new ListBox();
+            lblClientIP = new Label();
+            GameTick = new System.Windows.Forms.Timer(components);
+            dataGridView1 = new DataGridView();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            SuspendLayout();
             // 
             // txtIP
             // 
-            this.txtIP.Location = new System.Drawing.Point(59, 9);
-            this.txtIP.Name = "txtIP";
-            this.txtIP.Size = new System.Drawing.Size(232, 23);
-            this.txtIP.TabIndex = 0;
-            this.txtIP.Text = "127.0.0.1:9000";
+            txtIP.Location = new Point(59, 9);
+            txtIP.Name = "txtIP";
+            txtIP.Size = new Size(232, 23);
+            txtIP.TabIndex = 0;
+            txtIP.Text = "127.0.0.1:9000";
             // 
             // contextMenuStrip1
             // 
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new Size(61, 4);
             // 
             // txtChat
             // 
-            this.txtChat.Location = new System.Drawing.Point(12, 38);
-            this.txtChat.Multiline = true;
-            this.txtChat.Name = "txtChat";
-            this.txtChat.ReadOnly = true;
-            this.txtChat.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtChat.Size = new System.Drawing.Size(384, 267);
-            this.txtChat.TabIndex = 2;
+            txtChat.Location = new Point(12, 38);
+            txtChat.Multiline = true;
+            txtChat.Name = "txtChat";
+            txtChat.ReadOnly = true;
+            txtChat.ScrollBars = ScrollBars.Both;
+            txtChat.Size = new Size(384, 267);
+            txtChat.TabIndex = 2;
             // 
             // lblServer
             // 
-            this.lblServer.AutoSize = true;
-            this.lblServer.Location = new System.Drawing.Point(11, 13);
-            this.lblServer.Name = "lblServer";
-            this.lblServer.Size = new System.Drawing.Size(42, 15);
-            this.lblServer.TabIndex = 3;
-            this.lblServer.Text = "Server:";
+            lblServer.AutoSize = true;
+            lblServer.Location = new Point(11, 13);
+            lblServer.Name = "lblServer";
+            lblServer.Size = new Size(42, 15);
+            lblServer.TabIndex = 3;
+            lblServer.Text = "Server:";
             // 
             // btnSend
             // 
-            this.btnSend.Location = new System.Drawing.Point(321, 336);
-            this.btnSend.Name = "btnSend";
-            this.btnSend.Size = new System.Drawing.Size(75, 23);
-            this.btnSend.TabIndex = 4;
-            this.btnSend.Text = "Send";
-            this.btnSend.UseVisualStyleBackColor = true;
-            this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
+            btnSend.Location = new Point(321, 336);
+            btnSend.Name = "btnSend";
+            btnSend.Size = new Size(75, 23);
+            btnSend.TabIndex = 4;
+            btnSend.Text = "Send";
+            btnSend.UseVisualStyleBackColor = true;
+            btnSend.Click += btnSend_Click;
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(319, 9);
-            this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(75, 23);
-            this.btnStart.TabIndex = 5;
-            this.btnStart.Text = "Start";
-            this.btnStart.UseVisualStyleBackColor = true;
-            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
+            btnStart.Location = new Point(319, 9);
+            btnStart.Name = "btnStart";
+            btnStart.Size = new Size(75, 23);
+            btnStart.TabIndex = 5;
+            btnStart.Text = "Start";
+            btnStart.UseVisualStyleBackColor = true;
+            btnStart.Click += btnStart_Click;
             // 
             // txtMessage
             // 
-            this.txtMessage.Location = new System.Drawing.Point(73, 311);
-            this.txtMessage.Name = "txtMessage";
-            this.txtMessage.PlaceholderText = "...";
-            this.txtMessage.Size = new System.Drawing.Size(323, 23);
-            this.txtMessage.TabIndex = 6;
+            txtMessage.Location = new Point(73, 311);
+            txtMessage.Name = "txtMessage";
+            txtMessage.PlaceholderText = "...";
+            txtMessage.Size = new Size(323, 23);
+            txtMessage.TabIndex = 6;
             // 
             // lblMessage
             // 
-            this.lblMessage.AutoSize = true;
-            this.lblMessage.Location = new System.Drawing.Point(11, 314);
-            this.lblMessage.Name = "lblMessage";
-            this.lblMessage.Size = new System.Drawing.Size(56, 15);
-            this.lblMessage.TabIndex = 7;
-            this.lblMessage.Text = "Message:";
+            lblMessage.AutoSize = true;
+            lblMessage.Location = new Point(11, 314);
+            lblMessage.Name = "lblMessage";
+            lblMessage.Size = new Size(56, 15);
+            lblMessage.TabIndex = 7;
+            lblMessage.Text = "Message:";
             // 
             // lstClientIP
             // 
-            this.lstClientIP.FormattingEnabled = true;
-            this.lstClientIP.ItemHeight = 15;
-            this.lstClientIP.Location = new System.Drawing.Point(402, 42);
-            this.lstClientIP.Name = "lstClientIP";
-            this.lstClientIP.Size = new System.Drawing.Size(199, 259);
-            this.lstClientIP.TabIndex = 8;
+            lstClientIP.ItemHeight = 15;
+            lstClientIP.Location = new Point(402, 42);
+            lstClientIP.Name = "lstClientIP";
+            lstClientIP.Size = new Size(199, 259);
+            lstClientIP.TabIndex = 8;
             // 
             // lblClientIP
             // 
-            this.lblClientIP.AutoSize = true;
-            this.lblClientIP.Location = new System.Drawing.Point(402, 13);
-            this.lblClientIP.Name = "lblClientIP";
-            this.lblClientIP.Size = new System.Drawing.Size(54, 15);
-            this.lblClientIP.TabIndex = 9;
-            this.lblClientIP.Text = "Client IP:";
+            lblClientIP.AutoSize = true;
+            lblClientIP.Location = new Point(402, 13);
+            lblClientIP.Name = "lblClientIP";
+            lblClientIP.Size = new Size(54, 15);
+            lblClientIP.TabIndex = 9;
+            lblClientIP.Text = "Client IP:";
             // 
             // GameTick
             // 
-            this.GameTick.Interval = 1000;
-            this.GameTick.Tick += new System.EventHandler(this.GameTick_Tick);
+            GameTick.Interval = 1000;
+            GameTick.Tick += GameTick_Tick;
             // 
             // dataGridView1
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(607, 42);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowTemplate.Height = 25;
-            this.dataGridView1.Size = new System.Drawing.Size(244, 259);
-            this.dataGridView1.TabIndex = 10;
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(607, 42);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowTemplate.Height = 25;
+            dataGridView1.Size = new Size(244, 259);
+            dataGridView1.TabIndex = 10;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(859, 364);
-            this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.lblClientIP);
-            this.Controls.Add(this.lstClientIP);
-            this.Controls.Add(this.lblMessage);
-            this.Controls.Add(this.txtMessage);
-            this.Controls.Add(this.btnStart);
-            this.Controls.Add(this.btnSend);
-            this.Controls.Add(this.lblServer);
-            this.Controls.Add(this.txtChat);
-            this.Controls.Add(this.txtIP);
-            this.Name = "Form1";
-            this.Text = "TCP/IP Server";
-            this.Load += new System.EventHandler(this.Form1_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(859, 364);
+            Controls.Add(dataGridView1);
+            Controls.Add(lblClientIP);
+            Controls.Add(lstClientIP);
+            Controls.Add(lblMessage);
+            Controls.Add(txtMessage);
+            Controls.Add(btnStart);
+            Controls.Add(btnSend);
+            Controls.Add(lblServer);
+            Controls.Add(txtChat);
+            Controls.Add(txtIP);
+            Name = "Form1";
+            Text = "TCP/IP Server";
+            FormClosing += Form1_FormClosing;
+            Load += Form1_Load;
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

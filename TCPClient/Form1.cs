@@ -168,7 +168,7 @@ namespace TCPClient
 
         private string encryptString(string input)
         {
-            string output;
+            string output = "";
 
             using (SHA256 sha256Hash = SHA256.Create())
             {
