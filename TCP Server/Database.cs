@@ -228,7 +228,7 @@ namespace TCPServer
                 {
                     result = true;
                 }
-                else
+                else if (status == "offline")
                 {
                     result = false; 
                 }

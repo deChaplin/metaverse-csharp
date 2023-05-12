@@ -189,24 +189,37 @@ namespace TCPServer
             // Check if the username exists
             // If it does check login details
             // If it doesn't create the user
-            result = db.checkUserName(name, password, ip);
 
-            switch (result)
+            if (db.getOnlineStatus(name))
             {
-                case 1:
-                    MessageBox.Show(name);
-                    relayMessage($"Server: {name} has connected", "");
-                    db.setIp(name, ip);
-                    db.setOnlineStatus(ip, "online");
-                    break;
-                case 2:
-                    // server.Send(ip, "Username or password incorrect. Please restart and retry");
-                    closeClient(ip, "Incorrect login details. Please restart the app.");
-                    break;
-                case 3:
-                    server.Send(ip, "Your account has been created!");
-                    db.setOnlineStatus(ip, "online");
-                    break;
+                closeClient(ip, "Incorrect login details or account is logged in somewhere else.");
+            }
+            else
+            {
+                result = db.checkUserName(name, password, ip);
+
+                switch (result)
+                {
+                    case 1:
+                        //MessageBox.Show(name);
+                        relayMessage($"Server: {name} has connected", "");
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            lstClientIP.Items.Add(name + " : " + ip); // Adds the client to the list
+                        });
+                        
+                        db.setIp(name, ip);
+                        db.setOnlineStatus(ip, "online");
+                        break;
+                    case 2:
+                        // server.Send(ip, "Username or password incorrect. Please restart and retry");
+                        closeClient(ip, "Incorrect login details. Please restart the app.");
+                        break;
+                    case 3:
+                        server.Send(ip, "Your account has been created!");
+                        db.setOnlineStatus(ip, "online");
+                        break;
+                }
             }
         }
 
@@ -235,7 +248,7 @@ namespace TCPServer
 
                     this.Invoke((MethodInvoker)delegate
                     {
-                        txtChat.Text += $"Removed {e.IpPort} from looking to play list{Environment.NewLine}";   // Displays a connect message
+                        txtChat.Text += $"Removed {db.getName(e.IpPort)} from looking to play list{Environment.NewLine}";   // Displays a connect message
                     });
                 }
             }
@@ -251,7 +264,7 @@ namespace TCPServer
             this.Invoke((MethodInvoker)delegate
             {
                 txtChat.Text += $"{e.IpPort} connected.{Environment.NewLine}";   // Displays a connect message
-                lstClientIP.Items.Add(e.IpPort); // Adds the client to the list
+                //lstClientIP.Items.Add(e.IpPort); // Adds the client to the list
             });
             //server.Send($"{e.IpPort}", $"Please enter your name{Environment.NewLine}");
         }
