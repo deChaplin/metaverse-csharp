@@ -73,12 +73,11 @@ namespace TCPClient
                 }
                 else
                 {
-                    client.Connect();  // Try connecting the client to the IP
-
+                    //client.Connect();  // Try connecting the client to the IP
                     Form1 f1 = new Form1();
                     f1.Show();
 
-                    client.Dispose();
+                    //client.Dispose();
                     this.Hide();
                 }
             }

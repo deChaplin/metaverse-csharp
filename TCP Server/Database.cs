@@ -185,7 +185,7 @@ namespace TCPServer
             connection.Open();
 
             // Define the SQL command with parameters for the data to be inserted
-            string sql = "INSERT INTO playerData (name, password, currentIP, elo) VALUES (@name, @password, @currentIP, @elo)";
+            string sql = "INSERT INTO playerData (name, password, currentIP, elo, status) VALUES (@name, @password, @currentIP, @elo, @status)";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
 
             // Set the parameter values for the SQL command
@@ -193,6 +193,7 @@ namespace TCPServer
             command.Parameters.AddWithValue("@password", password);
             command.Parameters.AddWithValue("@currentIP", ip);
             command.Parameters.AddWithValue("@elo", 500);
+            command.Parameters.AddWithValue("@status", "online");
 
             // Execute the SQL command
             command.ExecuteNonQuery();

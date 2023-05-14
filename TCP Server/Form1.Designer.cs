@@ -41,6 +41,8 @@
             lblClientIP = new Label();
             GameTick = new System.Windows.Forms.Timer(components);
             dataGridView1 = new DataGridView();
+            lstClientName = new ListBox();
+            lvlName = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -116,15 +118,15 @@
             // lstClientIP
             // 
             lstClientIP.ItemHeight = 15;
-            lstClientIP.Location = new Point(402, 42);
+            lstClientIP.Location = new Point(502, 38);
             lstClientIP.Name = "lstClientIP";
-            lstClientIP.Size = new Size(199, 259);
+            lstClientIP.Size = new Size(124, 259);
             lstClientIP.TabIndex = 8;
             // 
             // lblClientIP
             // 
             lblClientIP.AutoSize = true;
-            lblClientIP.Location = new Point(402, 13);
+            lblClientIP.Location = new Point(502, 13);
             lblClientIP.Name = "lblClientIP";
             lblClientIP.Size = new Size(54, 15);
             lblClientIP.TabIndex = 9;
@@ -138,17 +140,36 @@
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(607, 42);
+            dataGridView1.Location = new Point(632, 38);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowTemplate.Height = 25;
-            dataGridView1.Size = new Size(244, 259);
+            dataGridView1.Size = new Size(219, 259);
             dataGridView1.TabIndex = 10;
+            // 
+            // lstClientName
+            // 
+            lstClientName.ItemHeight = 15;
+            lstClientName.Location = new Point(402, 38);
+            lstClientName.Name = "lstClientName";
+            lstClientName.Size = new Size(94, 259);
+            lstClientName.TabIndex = 11;
+            // 
+            // lvlName
+            // 
+            lvlName.AutoSize = true;
+            lvlName.Location = new Point(402, 13);
+            lvlName.Name = "lvlName";
+            lvlName.Size = new Size(76, 15);
+            lvlName.TabIndex = 12;
+            lvlName.Text = "Client Name:";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(859, 364);
+            Controls.Add(lvlName);
+            Controls.Add(lstClientName);
             Controls.Add(dataGridView1);
             Controls.Add(lblClientIP);
             Controls.Add(lstClientIP);
@@ -182,5 +203,7 @@
         private Label lblClientIP;
         private System.Windows.Forms.Timer GameTick;
         private DataGridView dataGridView1;
+        private ListBox lstClientName;
+        private Label lvlName;
     }
 }

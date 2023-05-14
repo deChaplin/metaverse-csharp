@@ -53,6 +53,7 @@ namespace TCPClient
                 }
                 else
                 {
+                    //client = new(txtIP.Text);
                     client.Connect();  // Try connecting the client to the IP
                     btnSend.Enabled = true; // Enables send button
                     btnConnect.Enabled = false; // Disables connect button

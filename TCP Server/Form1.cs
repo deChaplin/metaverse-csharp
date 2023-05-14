@@ -191,7 +191,7 @@ namespace TCPServer
             // If it doesn't create the user
 
             //MessageBox.Show(db.getOnlineStatus(name).ToString());
-            
+
             result = db.checkUserName(name, password, ip);
 
             switch (result)
@@ -201,13 +201,14 @@ namespace TCPServer
                     relayMessage($"Server: {name} has connected", "");
                     this.Invoke((MethodInvoker)delegate
                     {
-                        lstClientIP.Items.Add(name + " : " + ip); // Adds the client to the list
+                        lstClientIP.Items.Add(ip); // Adds the client to the list
+                        lstClientName.Items.Add(name);
                     });
 
                     db.setIp(name, ip);
                     db.setOnlineStatus(ip, "online");
                     break;
-                    
+
                 case 2:
                     // server.Send(ip, "Username or password incorrect. Please restart and retry");
                     closeClient(ip, "Incorrect login details. Please restart the app.");
@@ -234,7 +235,8 @@ namespace TCPServer
             this.Invoke((MethodInvoker)delegate
             {
                 txtChat.Text += $"{e.IpPort} disconnected.{Environment.NewLine}";   // Displays a disconnect message
-                lstClientIP.Items.Remove(db.getName(e.IpPort) + " : " + e.IpPort); // Removes the client from the list
+                lstClientIP.Items.Remove(e.IpPort); // Removes the client from the list
+                lstClientName.Items.Remove(db.getName(e.IpPort));
             });
 
             db.setOnlineStatus($"{e.IpPort}", "offline");
@@ -274,7 +276,7 @@ namespace TCPServer
             {
                 if (!string.IsNullOrEmpty(txtMessage.Text) && lstClientIP.SelectedItem != null) // Checks if the message is empty and a client is selected
                 {
-                    server.Send(lstClientIP.SelectedItem.ToString(), txtMessage.Text);  // Sends the message to the selected client
+                    server.Send(lstClientIP.SelectedItem.ToString(), "+Server: " + txtMessage.Text);  // Sends the message to the selected client
                     this.Invoke((MethodInvoker)delegate
                     {
                         txtChat.Text += $"Server: {txtMessage.Text}{Environment.NewLine}";  // Outputs the message in the chat
