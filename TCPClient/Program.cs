@@ -11,6 +11,7 @@ namespace TCPClient
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
+            //helpForm hf = new helpForm();
             Application.Run(new Form1());
 
             //loginForm loginf = new loginForm();

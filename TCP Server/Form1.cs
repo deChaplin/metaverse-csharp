@@ -45,11 +45,6 @@ namespace TCPServer
 
         private void Events_DataReceived(object? sender, DataReceivedEventArgs e)
         {
-            /*this.Invoke((MethodInvoker)delegate
-            {
-                txtChat.Text += $"{e.IpPort}: {Encoding.UTF8.GetString(e.Data)}{Environment.NewLine}";  // Outputs any message recieved to the chat box
-            });*/
-
             // Here I send the message to other clients
             string testing = Encoding.UTF8.GetString(e.Data);
 
@@ -78,7 +73,6 @@ namespace TCPServer
                             txtChat.Text += $"Added {e.IpPort} to looking to play list!{Environment.NewLine}";
                         });
                     }
-                    //gameSetup();
                     break;
                 // Message from client
                 case "*":
@@ -86,8 +80,6 @@ namespace TCPServer
                     break;
                 case "~":
                     // A player has won
-
-                    //MessageBox.Show(db.getIp(testing.Substring(1)));
                     server.Send(db.getIp(testing.Substring(1)), "^Your opponent won!");
 
                     db.setElo(db.getName($"{e.IpPort}"), true);
@@ -207,6 +199,15 @@ namespace TCPServer
 
                     db.setIp(name, ip);
                     db.setOnlineStatus(ip, "online");
+
+                    // Say who is online
+                    /*
+                    server.Send(ip, "+" + "Online players: ");  // Sends the message to the selected client
+                    for (int i = 0; i < lstClientName.Items.Count; i++)
+                    {
+                        server.Send(ip, lstClientName.Items[i].ToString() + " ");  // Sends the message to the selected client
+                    };
+                    */
                     break;
 
                 case 2:
@@ -215,7 +216,22 @@ namespace TCPServer
                     break;
                 case 3:
                     server.Send(ip, "Your account has been created!");
+
+                    relayMessage($"Server: {name} has connected", "");
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        lstClientIP.Items.Add(ip); // Adds the client to the list
+                        lstClientName.Items.Add(name);
+                    });
+
+                    db.setIp(name, ip);
                     db.setOnlineStatus(ip, "online");
+
+                    // Say who is online
+                    for (int i = 0; i < lstClientName.Items.Count; i++)
+                    {
+                        server.Send(ip, "+" + lstClientName.Items.ToString());  // Sends the message to the selected client
+                    };
                     break;
                 case 4:
                     closeClient(ip, "Incorrect login details or account is logged in somewhere else.");
@@ -240,6 +256,7 @@ namespace TCPServer
             });
 
             db.setOnlineStatus($"{e.IpPort}", "offline");
+            relayMessage($"Server: {db.getName(e.IpPort)} has disconnected", "");
 
             try
             {
@@ -265,9 +282,7 @@ namespace TCPServer
             this.Invoke((MethodInvoker)delegate
             {
                 txtChat.Text += $"{e.IpPort} connected.{Environment.NewLine}";   // Displays a connect message
-                //lstClientIP.Items.Add(e.IpPort); // Adds the client to the list
             });
-            //server.Send($"{e.IpPort}", $"Please enter your name{Environment.NewLine}");
         }
 
         private void btnSend_Click(object sender, EventArgs e)
