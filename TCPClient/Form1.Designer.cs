@@ -42,11 +42,9 @@
             pictureBox1 = new PictureBox();
             lblMismatch = new Label();
             lblTime = new Label();
-            btnRestart = new Button();
             GameTimer = new System.Windows.Forms.Timer(components);
             btnSend = new RoundedButtons();
             btnMatchmake = new RoundedButtons();
-            roundedButtons2 = new RoundedButtons();
             btnConnect = new RoundedButtons();
             btnMin = new Button();
             btnClose = new Button();
@@ -118,6 +116,7 @@
             txtName.ForeColor = Color.White;
             txtName.Location = new Point(59, 43);
             txtName.Name = "txtName";
+            txtName.PlaceholderText = "Username";
             txtName.Size = new Size(232, 16);
             txtName.TabIndex = 8;
             // 
@@ -148,8 +147,11 @@
             txtPassword.ForeColor = Color.White;
             txtPassword.Location = new Point(59, 72);
             txtPassword.Name = "txtPassword";
+            txtPassword.PasswordChar = '*';
+            txtPassword.PlaceholderText = "Password";
             txtPassword.Size = new Size(232, 16);
             txtPassword.TabIndex = 10;
+            txtPassword.UseSystemPasswordChar = true;
             // 
             // pictureBox1
             // 
@@ -165,7 +167,7 @@
             // 
             lblMismatch.AutoSize = true;
             lblMismatch.ForeColor = Color.White;
-            lblMismatch.Location = new Point(934, 88);
+            lblMismatch.Location = new Point(946, 44);
             lblMismatch.Name = "lblMismatch";
             lblMismatch.Size = new Size(111, 15);
             lblMismatch.TabIndex = 14;
@@ -175,21 +177,11 @@
             // 
             lblTime.AutoSize = true;
             lblTime.ForeColor = Color.White;
-            lblTime.Location = new Point(934, 110);
+            lblTime.Location = new Point(946, 66);
             lblTime.Name = "lblTime";
             lblTime.Size = new Size(56, 15);
             lblTime.TabIndex = 15;
             lblTime.Text = "Time left:";
-            // 
-            // btnRestart
-            // 
-            btnRestart.Location = new Point(934, 62);
-            btnRestart.Name = "btnRestart";
-            btnRestart.Size = new Size(75, 23);
-            btnRestart.TabIndex = 16;
-            btnRestart.Text = "Restart";
-            btnRestart.UseVisualStyleBackColor = true;
-            btnRestart.Click += btnRestart_Click;
             // 
             // GameTimer
             // 
@@ -231,7 +223,7 @@
             btnMatchmake.FlatAppearance.BorderSize = 0;
             btnMatchmake.FlatStyle = FlatStyle.Flat;
             btnMatchmake.ForeColor = Color.White;
-            btnMatchmake.Location = new Point(932, 31);
+            btnMatchmake.Location = new Point(314, 38);
             btnMatchmake.Name = "btnMatchmake";
             btnMatchmake.Size = new Size(78, 27);
             btnMatchmake.TabIndex = 25;
@@ -239,27 +231,6 @@
             btnMatchmake.TextColor = Color.White;
             btnMatchmake.UseVisualStyleBackColor = false;
             btnMatchmake.Click += btnMatchmake_Click;
-            // 
-            // roundedButtons2
-            // 
-            roundedButtons2.BackColor = Color.FromArgb(80, 80, 80);
-            roundedButtons2.BackgroundColor = Color.FromArgb(80, 80, 80);
-            roundedButtons2.BorderColor = SystemColors.ControlDarkDark;
-            roundedButtons2.BorderColor1 = SystemColors.ControlDarkDark;
-            roundedButtons2.BorderRadius = 15;
-            roundedButtons2.BorderRadius1 = 15;
-            roundedButtons2.BorderSize = 1;
-            roundedButtons2.BorderSize1 = 1;
-            roundedButtons2.FlatAppearance.BorderSize = 0;
-            roundedButtons2.FlatStyle = FlatStyle.Flat;
-            roundedButtons2.ForeColor = Color.White;
-            roundedButtons2.Location = new Point(1015, 62);
-            roundedButtons2.Name = "roundedButtons2";
-            roundedButtons2.Size = new Size(78, 27);
-            roundedButtons2.TabIndex = 26;
-            roundedButtons2.Text = "SEND";
-            roundedButtons2.TextColor = Color.White;
-            roundedButtons2.UseVisualStyleBackColor = false;
             // 
             // btnConnect
             // 
@@ -289,7 +260,7 @@
             btnMin.FlatStyle = FlatStyle.Flat;
             btnMin.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             btnMin.ForeColor = Color.White;
-            btnMin.Location = new Point(1111, -2);
+            btnMin.Location = new Point(1019, 1);
             btnMin.Name = "btnMin";
             btnMin.Size = new Size(24, 31);
             btnMin.TabIndex = 29;
@@ -303,7 +274,7 @@
             btnClose.FlatStyle = FlatStyle.Flat;
             btnClose.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             btnClose.ForeColor = Color.White;
-            btnClose.Location = new Point(1141, -2);
+            btnClose.Location = new Point(1049, 1);
             btnClose.Name = "btnClose";
             btnClose.Size = new Size(24, 31);
             btnClose.TabIndex = 28;
@@ -317,16 +288,18 @@
             btnHelp.BackgroundColor = Color.Transparent;
             btnHelp.BackgroundImage = (Image)resources.GetObject("btnHelp.BackgroundImage");
             btnHelp.BackgroundImageLayout = ImageLayout.Stretch;
-            btnHelp.BorderColor = Color.PaleVioletRed;
-            btnHelp.BorderColor1 = Color.PaleVioletRed;
+            btnHelp.BorderColor = Color.Transparent;
+            btnHelp.BorderColor1 = Color.Transparent;
             btnHelp.BorderRadius = 0;
             btnHelp.BorderRadius1 = 0;
             btnHelp.BorderSize = 0;
             btnHelp.BorderSize1 = 0;
             btnHelp.FlatAppearance.BorderSize = 0;
+            btnHelp.FlatAppearance.MouseDownBackColor = Color.Transparent;
+            btnHelp.FlatAppearance.MouseOverBackColor = Color.Transparent;
             btnHelp.FlatStyle = FlatStyle.Flat;
             btnHelp.ForeColor = Color.Transparent;
-            btnHelp.Location = new Point(1087, 6);
+            btnHelp.Location = new Point(995, 9);
             btnHelp.Name = "btnHelp";
             btnHelp.Size = new Size(18, 18);
             btnHelp.TabIndex = 30;
@@ -339,15 +312,13 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(56, 56, 56);
-            ClientSize = new Size(1167, 457);
+            ClientSize = new Size(1076, 457);
             Controls.Add(btnHelp);
             Controls.Add(btnMin);
             Controls.Add(btnClose);
             Controls.Add(btnConnect);
-            Controls.Add(roundedButtons2);
             Controls.Add(btnMatchmake);
             Controls.Add(btnSend);
-            Controls.Add(btnRestart);
             Controls.Add(lblTime);
             Controls.Add(lblMismatch);
             Controls.Add(pictureBox1);
@@ -387,11 +358,9 @@
         private PictureBox pictureBox1;
         private Label lblMismatch;
         private Label lblTime;
-        private Button btnRestart;
         private System.Windows.Forms.Timer GameTimer;
         private RoundedButtons btnSend;
         private RoundedButtons btnMatchmake;
-        private RoundedButtons roundedButtons2;
         private RoundedButtons btnConnect;
         private Button btnMin;
         private Button btnClose;

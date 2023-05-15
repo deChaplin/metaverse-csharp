@@ -60,7 +60,6 @@ namespace TCPClient
                     txtName.Enabled = false;    // Disables the name text box
                     txtPassword.Enabled = false;    // Disables the password text box
                     btnMatchmake.Enabled = true;
-                    btnRestart.Enabled = true;
                     txtIP.Enabled = false;
                 }
             }
@@ -91,7 +90,6 @@ namespace TCPClient
             client.Events.DataReceived += Events_DataReceived;
             btnSend.Enabled = false;
             btnMatchmake.Enabled = false;
-            btnRestart.Enabled = false;
         }
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
@@ -216,12 +214,6 @@ namespace TCPClient
                     }
                 }
             }
-        }
-
-        private void btnRestart_Click(object sender, EventArgs e)
-        {
-            // Restarts game when button is pressed
-            restartGame();
         }
 
         private void loadImages()
