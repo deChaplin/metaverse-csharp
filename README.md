@@ -14,3 +14,6 @@
 3. Build >> Build Solution
 4. Open \TCP Server\bin\Release\net6.0-windows and run the TCP Server.exe
 5. Open \TCPClient\bin\Release\net6.0-windows and run the TCPClient.exe
+
+
+No changes coming.
