@@ -51,10 +51,11 @@
             lblOpponent = new Label();
             loginPanel = new Panel();
             chatPanel = new Panel();
+            lstOnline = new ListBox();
             gamePanel = new Panel();
             btnShowChat = new RoundedButtons();
             btnHideChat = new RoundedButtons();
-            lstOnline = new ListBox();
+            label1 = new Label();
             loginPanel.SuspendLayout();
             chatPanel.SuspendLayout();
             gamePanel.SuspendLayout();
@@ -324,13 +325,14 @@
             loginPanel.Controls.Add(txtPassword);
             loginPanel.Controls.Add(btnConnect);
             loginPanel.Controls.Add(lblPassword);
-            loginPanel.Location = new Point(145, 146);
+            loginPanel.Location = new Point(145, 162);
             loginPanel.Name = "loginPanel";
             loginPanel.Size = new Size(288, 124);
             loginPanel.TabIndex = 32;
             // 
             // chatPanel
             // 
+            chatPanel.Controls.Add(label1);
             chatPanel.Controls.Add(lstOnline);
             chatPanel.Controls.Add(txtChat);
             chatPanel.Controls.Add(txtMessage);
@@ -340,6 +342,18 @@
             chatPanel.Name = "chatPanel";
             chatPanel.Size = new Size(390, 441);
             chatPanel.TabIndex = 33;
+            // 
+            // lstOnline
+            // 
+            lstOnline.BackColor = Color.FromArgb(80, 80, 80);
+            lstOnline.BorderStyle = BorderStyle.None;
+            lstOnline.ForeColor = Color.White;
+            lstOnline.FormattingEnabled = true;
+            lstOnline.ItemHeight = 15;
+            lstOnline.Location = new Point(6, 19);
+            lstOnline.Name = "lstOnline";
+            lstOnline.Size = new Size(381, 90);
+            lstOnline.TabIndex = 25;
             // 
             // gamePanel
             // 
@@ -400,14 +414,15 @@
             btnHideChat.UseVisualStyleBackColor = false;
             btnHideChat.Click += btnHideChat_Click;
             // 
-            // lstOnline
+            // label1
             // 
-            lstOnline.FormattingEnabled = true;
-            lstOnline.ItemHeight = 15;
-            lstOnline.Location = new Point(6, 4);
-            lstOnline.Name = "lstOnline";
-            lstOnline.Size = new Size(381, 109);
-            lstOnline.TabIndex = 25;
+            label1.AutoSize = true;
+            label1.ForeColor = Color.White;
+            label1.Location = new Point(2, 1);
+            label1.Name = "label1";
+            label1.Size = new Size(93, 15);
+            label1.TabIndex = 26;
+            label1.Text = "Online Players - ";
             // 
             // Form1
             // 
@@ -470,5 +485,6 @@
         private RoundedButtons btnShowChat;
         private RoundedButtons btnHideChat;
         private ListBox lstOnline;
+        private Label label1;
     }
 }

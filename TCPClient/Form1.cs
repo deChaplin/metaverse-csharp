@@ -48,7 +48,8 @@ namespace TCPClient
             loginPanel.Visible = true;
             chatPanel.Visible = false;
             gamePanel.Visible = false;
-            btnHideChat.Hide();
+            btnHideChat.Visible = false;
+            btnShowChat.Visible = false;
         }
 
         private void btnConnect_Click(object sender, EventArgs e)
@@ -81,6 +82,7 @@ namespace TCPClient
 
                     loginPanel.Visible = false;
                     gamePanel.Visible = true;
+                    btnShowChat.Visible = true;
                 }
             }
             catch (Exception ex)
@@ -157,8 +159,8 @@ namespace TCPClient
                     case ",":
                         //MessageBox.Show(testing.Substring(1));
                         string[] onlineList = testing.Substring(1).Split(',');
-                        
-                        if (lstOnline.Items.Count >= 1) 
+
+                        if (lstOnline.Items.Count >= 1)
                         {
                             lstOnline.Items.Clear();
                         }
@@ -213,27 +215,7 @@ namespace TCPClient
             return output;
         }
 
-        //  **************
-        //  Misc functions
-        //  **************
-
-        //  Closes the application
-        private void btnClose_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        //  Minimises the form 
-        private void btnMin_Click(object sender, EventArgs e)
-        {
-            this.WindowState = FormWindowState.Minimized;
-        }
-
-        //  Shows the help form
-        private void btnHelp_Click(object sender, EventArgs e)
-        {
-            hf.Show();
-        }
+       
 
         //  **********************************
         //  The game's main function are below
@@ -428,18 +410,40 @@ namespace TCPClient
             pictureBoxList.Clear();
         }
 
+        //  **************
+        //  Misc functions
+        //  **************
+
+        //  Closes the application
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        //  Minimises the form 
+        private void btnMin_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        //  Shows the help form
+        private void btnHelp_Click(object sender, EventArgs e)
+        {
+            hf.Show();
+        }
+
         private void btnShowChat_Click(object sender, EventArgs e)
         {
             chatPanel.Visible = true;
-            btnShowChat.Hide();
-            btnHideChat.Show();
+            btnHideChat.Visible = true;
+            btnShowChat.Visible = false;
         }
 
         private void btnHideChat_Click(object sender, EventArgs e)
         {
             chatPanel.Visible = false;
-            btnShowChat.Show();
-            btnHideChat.Hide();
+            btnHideChat.Visible = false;
+            btnShowChat.Visible = true;
         }
     }
 }
