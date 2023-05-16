@@ -8,13 +8,17 @@ namespace TCPServer
 {
     public partial class Form1 : Form
     {
+        SimpleTcpServer server;
+        Database db = new Database();
+        string name;
+        string psw;
+        List<int> numbers = new List<int> { 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8 };
+        List<string> lookingToPlay = new List<string>();
+
         public Form1()
         {
             InitializeComponent();
         }
-
-        SimpleTcpServer server;
-        Database db = new Database();
 
         private void btnStart_Click(object sender, EventArgs e)
         {
@@ -35,13 +39,13 @@ namespace TCPServer
             server.Events.ClientDisconnected += Events_ClientDisconnected;
             server.Events.DataReceived += Events_DataReceived;
 
+            if (db.checkDB())
+            {
+                db.setAllOffline();
+            }
+
             GameTick.Start();
         }
-
-        string name;
-        string psw;
-        List<int> numbers = new List<int> { 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8 };
-        List<string> lookingToPlay = new List<string>();
 
         private void Events_DataReceived(object? sender, DataReceivedEventArgs e)
         {
@@ -105,6 +109,107 @@ namespace TCPServer
 
                 name = null;
                 psw = null;
+            }
+        }
+
+        private void Events_ClientDisconnected(object? sender, ConnectionEventArgs e)
+        {
+            this.Invoke((MethodInvoker)delegate
+            {
+                txtChat.Text += $"{e.IpPort} disconnected.{Environment.NewLine}";   // Displays a disconnect message
+                lstClientIP.Items.Remove(e.IpPort); // Removes the client from the list
+                lstClientName.Items.Remove(db.getName(e.IpPort));
+            });
+
+            db.setOnlineStatus($"{e.IpPort}", "offline");
+            relayMessage($"Server: {db.getName(e.IpPort)} has disconnected", "");
+
+            try
+            {
+                if (lookingToPlay.Count != 0)
+                {
+                    lookingToPlay.Remove($"{e.IpPort}");  // Removes the client from the looking to play list if they were in it.
+
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        txtChat.Text += $"Removed {db.getName(e.IpPort)} from looking to play list{Environment.NewLine}";   // Displays a connect message
+                    });
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Failed to remove client from list");
+            }
+
+            sendOnline();
+        }
+
+        private void Events_ClientConnected(object? sender, ConnectionEventArgs e)
+        {
+            this.Invoke((MethodInvoker)delegate
+            {
+                txtChat.Text += $"{e.IpPort} connected.{Environment.NewLine}";   // Displays a connect message
+            });
+
+            //sendOnline();
+        }
+
+        private void sendOnline()
+        {
+            List<string> userNames = db.getAllOnline();
+
+            string nameList = String.Join(",", userNames);
+
+            for (int x = 0; x < lstClientIP.Items.Count; x++)
+            {
+                server.Send(lstClientIP.Items[x].ToString(), "," + nameList);
+            }
+        }
+
+        // Logging in
+        private void logging(string name, string password, string ip)
+        {
+            int result = 0;
+
+            // Check if the username exists
+            // If it does check login details
+            // If it doesn't create the user
+            result = db.checkUserName(name, password, ip);
+
+            switch (result)
+            {
+                case 1:
+                    relayMessage($"Server: {name} has connected", "");
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        lstClientIP.Items.Add(ip); // Adds the client to the list
+                        lstClientName.Items.Add(name);
+                    });
+
+                    db.setIp(name, ip);
+                    db.setOnlineStatus(ip, "online");
+                    sendOnline();
+                    break;
+
+                case 2:
+                    closeClient(ip, "Incorrect login details. Please restart the app.");
+                    break;
+                case 3:
+                    server.Send(ip, "Your account has been created!");
+
+                    relayMessage($"Server: {name} has connected", "");
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        lstClientIP.Items.Add(ip); // Adds the client to the list
+                        lstClientName.Items.Add(name);
+                    });
+
+                    db.setIp(name, ip);
+                    db.setOnlineStatus(ip, "online");
+                    break;
+                case 4:
+                    closeClient(ip, "Incorrect login details or account is logged in somewhere else.");
+                    break;
             }
         }
 
@@ -173,116 +278,11 @@ namespace TCPServer
             }
         }
 
-        // Logging in
-        private void logging(string name, string password, string ip)
-        {
-            int result = 0;
-
-            // Check if the username exists
-            // If it does check login details
-            // If it doesn't create the user
-
-            //MessageBox.Show(db.getOnlineStatus(name).ToString());
-
-            result = db.checkUserName(name, password, ip);
-
-            switch (result)
-            {
-                case 1:
-                    //MessageBox.Show(name);
-                    relayMessage($"Server: {name} has connected", "");
-                    this.Invoke((MethodInvoker)delegate
-                    {
-                        lstClientIP.Items.Add(ip); // Adds the client to the list
-                        lstClientName.Items.Add(name);
-                    });
-
-                    db.setIp(name, ip);
-                    db.setOnlineStatus(ip, "online");
-
-                    // Say who is online
-                    /*
-                    server.Send(ip, "+" + "Online players: ");  // Sends the message to the selected client
-                    for (int i = 0; i < lstClientName.Items.Count; i++)
-                    {
-                        server.Send(ip, lstClientName.Items[i].ToString() + " ");  // Sends the message to the selected client
-                    };
-                    */
-                    break;
-
-                case 2:
-                    // server.Send(ip, "Username or password incorrect. Please restart and retry");
-                    closeClient(ip, "Incorrect login details. Please restart the app.");
-                    break;
-                case 3:
-                    server.Send(ip, "Your account has been created!");
-
-                    relayMessage($"Server: {name} has connected", "");
-                    this.Invoke((MethodInvoker)delegate
-                    {
-                        lstClientIP.Items.Add(ip); // Adds the client to the list
-                        lstClientName.Items.Add(name);
-                    });
-
-                    db.setIp(name, ip);
-                    db.setOnlineStatus(ip, "online");
-
-                    // Say who is online
-                    for (int i = 0; i < lstClientName.Items.Count; i++)
-                    {
-                        server.Send(ip, "+" + lstClientName.Items.ToString());  // Sends the message to the selected client
-                    };
-                    break;
-                case 4:
-                    closeClient(ip, "Incorrect login details or account is logged in somewhere else.");
-                    break;
-            }
-        }
-
         private void closeClient(string ip, string msg)
         {
             server.Send(ip, "/" + msg);
             Thread.Sleep(600);
             //server.DisconnectClient(ip);
-        }
-
-        private void Events_ClientDisconnected(object? sender, ConnectionEventArgs e)
-        {
-            this.Invoke((MethodInvoker)delegate
-            {
-                txtChat.Text += $"{e.IpPort} disconnected.{Environment.NewLine}";   // Displays a disconnect message
-                lstClientIP.Items.Remove(e.IpPort); // Removes the client from the list
-                lstClientName.Items.Remove(db.getName(e.IpPort));
-            });
-
-            db.setOnlineStatus($"{e.IpPort}", "offline");
-            relayMessage($"Server: {db.getName(e.IpPort)} has disconnected", "");
-
-            try
-            {
-                if (lookingToPlay.Count != 0)
-                {
-                    lookingToPlay.Remove($"{e.IpPort}");  // Removes the client from the looking to play list if they were in it.
-
-                    this.Invoke((MethodInvoker)delegate
-                    {
-                        txtChat.Text += $"Removed {db.getName(e.IpPort)} from looking to play list{Environment.NewLine}";   // Displays a connect message
-                    });
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Failed to remove client from list");
-            }
-
-        }
-
-        private void Events_ClientConnected(object? sender, ConnectionEventArgs e)
-        {
-            this.Invoke((MethodInvoker)delegate
-            {
-                txtChat.Text += $"{e.IpPort} connected.{Environment.NewLine}";   // Displays a connect message
-            });
         }
 
         private void btnSend_Click(object sender, EventArgs e)

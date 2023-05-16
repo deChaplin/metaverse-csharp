@@ -268,6 +268,34 @@ namespace TCPServer
             connection.Close();
         }
 
+        public List<string> getAllOnline()
+        {
+            // Open the connection
+            string databaseFile = "mydatabase.db";
+            string connectionString = "Data Source=" + databaseFile + ";Version=3;";
+            SQLiteConnection connection = new SQLiteConnection(connectionString);
+            connection.Open();
+
+            // Define the SQL command with parameters for the data to be selected
+            string sql = "SELECT name FROM playerData WHERE status = 'online'";
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
+
+            // Execute the SQL command and get the matching row
+            SQLiteDataReader reader = command.ExecuteReader();
+
+            List<string> userNames = new List<string>();
+            while (reader.Read()) 
+            {
+                string userName = reader.GetString(0);
+                userNames.Add(userName);
+            }
+
+            reader.Close();
+            connection.Close();
+
+            return userNames;
+        }
+
         public void setAllOffline()
         {
             // Open the connection

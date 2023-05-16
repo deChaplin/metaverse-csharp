@@ -39,7 +39,6 @@
             lvlName = new Label();
             lblPassword = new Label();
             txtPassword = new TextBox();
-            pictureBox1 = new PictureBox();
             lblMismatch = new Label();
             lblTime = new Label();
             GameTimer = new System.Windows.Forms.Timer(components);
@@ -49,7 +48,16 @@
             btnMin = new Button();
             btnClose = new Button();
             btnHelp = new RoundedButtons();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            lblOpponent = new Label();
+            loginPanel = new Panel();
+            chatPanel = new Panel();
+            gamePanel = new Panel();
+            btnShowChat = new RoundedButtons();
+            btnHideChat = new RoundedButtons();
+            lstOnline = new ListBox();
+            loginPanel.SuspendLayout();
+            chatPanel.SuspendLayout();
+            gamePanel.SuspendLayout();
             SuspendLayout();
             // 
             // txtIP
@@ -58,7 +66,7 @@
             txtIP.BorderStyle = BorderStyle.None;
             txtIP.Enabled = false;
             txtIP.ForeColor = Color.White;
-            txtIP.Location = new Point(59, 11);
+            txtIP.Location = new Point(49, 7);
             txtIP.Name = "txtIP";
             txtIP.Size = new Size(232, 16);
             txtIP.TabIndex = 0;
@@ -70,19 +78,19 @@
             txtChat.BorderStyle = BorderStyle.None;
             txtChat.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             txtChat.ForeColor = Color.White;
-            txtChat.Location = new Point(9, 128);
+            txtChat.Location = new Point(6, 118);
             txtChat.Multiline = true;
             txtChat.Name = "txtChat";
             txtChat.ReadOnly = true;
             txtChat.ScrollBars = ScrollBars.Both;
-            txtChat.Size = new Size(384, 267);
+            txtChat.Size = new Size(381, 267);
             txtChat.TabIndex = 2;
             // 
             // lblServer
             // 
             lblServer.AutoSize = true;
             lblServer.ForeColor = Color.White;
-            lblServer.Location = new Point(12, 11);
+            lblServer.Location = new Point(2, 7);
             lblServer.Name = "lblServer";
             lblServer.Size = new Size(42, 15);
             lblServer.TabIndex = 3;
@@ -93,7 +101,7 @@
             txtMessage.BackColor = Color.FromArgb(80, 80, 80);
             txtMessage.BorderStyle = BorderStyle.None;
             txtMessage.ForeColor = Color.White;
-            txtMessage.Location = new Point(70, 403);
+            txtMessage.Location = new Point(64, 391);
             txtMessage.Name = "txtMessage";
             txtMessage.PlaceholderText = "...";
             txtMessage.Size = new Size(323, 16);
@@ -103,7 +111,7 @@
             // 
             lblMessage.AutoSize = true;
             lblMessage.ForeColor = Color.White;
-            lblMessage.Location = new Point(8, 404);
+            lblMessage.Location = new Point(2, 392);
             lblMessage.Name = "lblMessage";
             lblMessage.Size = new Size(56, 15);
             lblMessage.TabIndex = 7;
@@ -114,7 +122,7 @@
             txtName.BackColor = Color.FromArgb(80, 80, 80);
             txtName.BorderStyle = BorderStyle.None;
             txtName.ForeColor = Color.White;
-            txtName.Location = new Point(59, 43);
+            txtName.Location = new Point(49, 39);
             txtName.Name = "txtName";
             txtName.PlaceholderText = "Username";
             txtName.Size = new Size(232, 16);
@@ -124,7 +132,7 @@
             // 
             lvlName.AutoSize = true;
             lvlName.ForeColor = Color.White;
-            lvlName.Location = new Point(12, 43);
+            lvlName.Location = new Point(2, 39);
             lvlName.Name = "lvlName";
             lvlName.Size = new Size(42, 15);
             lvlName.TabIndex = 9;
@@ -134,7 +142,7 @@
             // 
             lblPassword.AutoSize = true;
             lblPassword.ForeColor = Color.White;
-            lblPassword.Location = new Point(12, 72);
+            lblPassword.Location = new Point(2, 68);
             lblPassword.Name = "lblPassword";
             lblPassword.Size = new Size(33, 15);
             lblPassword.TabIndex = 11;
@@ -145,7 +153,7 @@
             txtPassword.BackColor = Color.FromArgb(80, 80, 80);
             txtPassword.BorderStyle = BorderStyle.None;
             txtPassword.ForeColor = Color.White;
-            txtPassword.Location = new Point(59, 72);
+            txtPassword.Location = new Point(49, 68);
             txtPassword.Name = "txtPassword";
             txtPassword.PasswordChar = '*';
             txtPassword.PlaceholderText = "Password";
@@ -153,21 +161,11 @@
             txtPassword.TabIndex = 10;
             txtPassword.UseSystemPasswordChar = true;
             // 
-            // pictureBox1
-            // 
-            pictureBox1.BackColor = Color.White;
-            pictureBox1.Location = new Point(400, 8);
-            pictureBox1.Margin = new Padding(1);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(2, 442);
-            pictureBox1.TabIndex = 12;
-            pictureBox1.TabStop = false;
-            // 
             // lblMismatch
             // 
             lblMismatch.AutoSize = true;
             lblMismatch.ForeColor = Color.White;
-            lblMismatch.Location = new Point(946, 44);
+            lblMismatch.Location = new Point(150, 9);
             lblMismatch.Name = "lblMismatch";
             lblMismatch.Size = new Size(111, 15);
             lblMismatch.TabIndex = 14;
@@ -177,7 +175,7 @@
             // 
             lblTime.AutoSize = true;
             lblTime.ForeColor = Color.White;
-            lblTime.Location = new Point(946, 66);
+            lblTime.Location = new Point(340, 9);
             lblTime.Name = "lblTime";
             lblTime.Size = new Size(56, 15);
             lblTime.TabIndex = 15;
@@ -201,7 +199,7 @@
             btnSend.FlatAppearance.BorderSize = 0;
             btnSend.FlatStyle = FlatStyle.Flat;
             btnSend.ForeColor = Color.White;
-            btnSend.Location = new Point(315, 424);
+            btnSend.Location = new Point(309, 412);
             btnSend.Name = "btnSend";
             btnSend.Size = new Size(78, 27);
             btnSend.TabIndex = 24;
@@ -223,7 +221,7 @@
             btnMatchmake.FlatAppearance.BorderSize = 0;
             btnMatchmake.FlatStyle = FlatStyle.Flat;
             btnMatchmake.ForeColor = Color.White;
-            btnMatchmake.Location = new Point(314, 38);
+            btnMatchmake.Location = new Point(449, 3);
             btnMatchmake.Name = "btnMatchmake";
             btnMatchmake.Size = new Size(78, 27);
             btnMatchmake.TabIndex = 25;
@@ -245,7 +243,7 @@
             btnConnect.FlatAppearance.BorderSize = 0;
             btnConnect.FlatStyle = FlatStyle.Flat;
             btnConnect.ForeColor = Color.White;
-            btnConnect.Location = new Point(314, 5);
+            btnConnect.Location = new Point(202, 90);
             btnConnect.Name = "btnConnect";
             btnConnect.Size = new Size(79, 27);
             btnConnect.TabIndex = 27;
@@ -260,7 +258,7 @@
             btnMin.FlatStyle = FlatStyle.Flat;
             btnMin.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             btnMin.ForeColor = Color.White;
-            btnMin.Location = new Point(1019, 1);
+            btnMin.Location = new Point(528, 0);
             btnMin.Name = "btnMin";
             btnMin.Size = new Size(24, 31);
             btnMin.TabIndex = 29;
@@ -274,7 +272,7 @@
             btnClose.FlatStyle = FlatStyle.Flat;
             btnClose.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             btnClose.ForeColor = Color.White;
-            btnClose.Location = new Point(1049, 1);
+            btnClose.Location = new Point(558, 0);
             btnClose.Name = "btnClose";
             btnClose.Size = new Size(24, 31);
             btnClose.TabIndex = 28;
@@ -299,7 +297,7 @@
             btnHelp.FlatAppearance.MouseOverBackColor = Color.Transparent;
             btnHelp.FlatStyle = FlatStyle.Flat;
             btnHelp.ForeColor = Color.Transparent;
-            btnHelp.Location = new Point(995, 9);
+            btnHelp.Location = new Point(9, 8);
             btnHelp.Name = "btnHelp";
             btnHelp.Size = new Size(18, 18);
             btnHelp.TabIndex = 30;
@@ -307,41 +305,142 @@
             btnHelp.UseVisualStyleBackColor = false;
             btnHelp.Click += btnHelp_Click;
             // 
+            // lblOpponent
+            // 
+            lblOpponent.AutoSize = true;
+            lblOpponent.ForeColor = Color.White;
+            lblOpponent.Location = new Point(8, 9);
+            lblOpponent.Name = "lblOpponent";
+            lblOpponent.Size = new Size(64, 15);
+            lblOpponent.TabIndex = 31;
+            lblOpponent.Text = "Opponent:";
+            // 
+            // loginPanel
+            // 
+            loginPanel.Controls.Add(txtIP);
+            loginPanel.Controls.Add(lblServer);
+            loginPanel.Controls.Add(txtName);
+            loginPanel.Controls.Add(lvlName);
+            loginPanel.Controls.Add(txtPassword);
+            loginPanel.Controls.Add(btnConnect);
+            loginPanel.Controls.Add(lblPassword);
+            loginPanel.Location = new Point(145, 146);
+            loginPanel.Name = "loginPanel";
+            loginPanel.Size = new Size(288, 124);
+            loginPanel.TabIndex = 32;
+            // 
+            // chatPanel
+            // 
+            chatPanel.Controls.Add(lstOnline);
+            chatPanel.Controls.Add(txtChat);
+            chatPanel.Controls.Add(txtMessage);
+            chatPanel.Controls.Add(lblMessage);
+            chatPanel.Controls.Add(btnSend);
+            chatPanel.Location = new Point(585, 8);
+            chatPanel.Name = "chatPanel";
+            chatPanel.Size = new Size(390, 441);
+            chatPanel.TabIndex = 33;
+            // 
+            // gamePanel
+            // 
+            gamePanel.Controls.Add(btnMatchmake);
+            gamePanel.Controls.Add(lblMismatch);
+            gamePanel.Controls.Add(lblTime);
+            gamePanel.Controls.Add(lblOpponent);
+            gamePanel.Location = new Point(20, 414);
+            gamePanel.Name = "gamePanel";
+            gamePanel.Size = new Size(532, 35);
+            gamePanel.TabIndex = 34;
+            // 
+            // btnShowChat
+            // 
+            btnShowChat.BackColor = Color.FromArgb(80, 80, 80);
+            btnShowChat.BackgroundColor = Color.FromArgb(80, 80, 80);
+            btnShowChat.BorderColor = SystemColors.ControlDarkDark;
+            btnShowChat.BorderColor1 = SystemColors.ControlDarkDark;
+            btnShowChat.BorderRadius = 15;
+            btnShowChat.BorderRadius1 = 15;
+            btnShowChat.BorderSize = 1;
+            btnShowChat.BorderSize1 = 1;
+            btnShowChat.FlatAppearance.BorderSize = 0;
+            btnShowChat.FlatStyle = FlatStyle.Flat;
+            btnShowChat.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            btnShowChat.ForeColor = Color.White;
+            btnShowChat.Location = new Point(553, 71);
+            btnShowChat.Name = "btnShowChat";
+            btnShowChat.Size = new Size(26, 284);
+            btnShowChat.TabIndex = 28;
+            btnShowChat.Text = ">";
+            btnShowChat.TextAlign = ContentAlignment.MiddleRight;
+            btnShowChat.TextColor = Color.White;
+            btnShowChat.UseVisualStyleBackColor = false;
+            btnShowChat.Click += btnShowChat_Click;
+            // 
+            // btnHideChat
+            // 
+            btnHideChat.BackColor = Color.FromArgb(80, 80, 80);
+            btnHideChat.BackgroundColor = Color.FromArgb(80, 80, 80);
+            btnHideChat.BorderColor = SystemColors.ControlDarkDark;
+            btnHideChat.BorderColor1 = SystemColors.ControlDarkDark;
+            btnHideChat.BorderRadius = 15;
+            btnHideChat.BorderRadius1 = 15;
+            btnHideChat.BorderSize = 1;
+            btnHideChat.BorderSize1 = 1;
+            btnHideChat.FlatAppearance.BorderSize = 0;
+            btnHideChat.FlatStyle = FlatStyle.Flat;
+            btnHideChat.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            btnHideChat.ForeColor = Color.White;
+            btnHideChat.Location = new Point(553, 71);
+            btnHideChat.Name = "btnHideChat";
+            btnHideChat.Size = new Size(26, 286);
+            btnHideChat.TabIndex = 35;
+            btnHideChat.Text = "<";
+            btnHideChat.TextAlign = ContentAlignment.MiddleRight;
+            btnHideChat.TextColor = Color.White;
+            btnHideChat.UseVisualStyleBackColor = false;
+            btnHideChat.Click += btnHideChat_Click;
+            // 
+            // lstOnline
+            // 
+            lstOnline.FormattingEnabled = true;
+            lstOnline.ItemHeight = 15;
+            lstOnline.Location = new Point(6, 4);
+            lstOnline.Name = "lstOnline";
+            lstOnline.Size = new Size(381, 109);
+            lstOnline.TabIndex = 25;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoSize = true;
+            AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BackColor = Color.FromArgb(56, 56, 56);
-            ClientSize = new Size(1076, 457);
+            ClientSize = new Size(980, 460);
+            Controls.Add(btnHideChat);
+            Controls.Add(btnShowChat);
+            Controls.Add(gamePanel);
+            Controls.Add(chatPanel);
+            Controls.Add(loginPanel);
             Controls.Add(btnHelp);
             Controls.Add(btnMin);
             Controls.Add(btnClose);
-            Controls.Add(btnConnect);
-            Controls.Add(btnMatchmake);
-            Controls.Add(btnSend);
-            Controls.Add(lblTime);
-            Controls.Add(lblMismatch);
-            Controls.Add(pictureBox1);
-            Controls.Add(lblPassword);
-            Controls.Add(txtPassword);
-            Controls.Add(lvlName);
-            Controls.Add(txtName);
-            Controls.Add(lblMessage);
-            Controls.Add(txtMessage);
-            Controls.Add(lblServer);
-            Controls.Add(txtChat);
-            Controls.Add(txtIP);
             FormBorderStyle = FormBorderStyle.None;
             HelpButton = true;
             MaximizeBox = false;
+            MinimumSize = new Size(586, 460);
             Name = "Form1";
             SizeGripStyle = SizeGripStyle.Hide;
             Text = "TCP/IP Client";
             Load += Form1_Load;
             MouseDown += Form1_MouseDown;
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            loginPanel.ResumeLayout(false);
+            loginPanel.PerformLayout();
+            chatPanel.ResumeLayout(false);
+            chatPanel.PerformLayout();
+            gamePanel.ResumeLayout(false);
+            gamePanel.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -355,7 +454,6 @@
         private Label lvlName;
         private Label lblPassword;
         private TextBox txtPassword;
-        private PictureBox pictureBox1;
         private Label lblMismatch;
         private Label lblTime;
         private System.Windows.Forms.Timer GameTimer;
@@ -365,5 +463,12 @@
         private Button btnMin;
         private Button btnClose;
         private RoundedButtons btnHelp;
+        private Label lblOpponent;
+        private Panel loginPanel;
+        private Panel chatPanel;
+        private Panel gamePanel;
+        private RoundedButtons btnShowChat;
+        private RoundedButtons btnHideChat;
+        private ListBox lstOnline;
     }
 }

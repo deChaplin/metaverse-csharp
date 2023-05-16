@@ -25,6 +25,7 @@ namespace TCPClient
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
 
+        SimpleTcpClient client;
         helpForm hf;
 
         public Form1()
@@ -35,7 +36,20 @@ namespace TCPClient
             hf = new helpForm();
         }
 
-        SimpleTcpClient client;
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            client = new(txtIP.Text);
+            client.Events.Connected += Events_Connected;
+            client.Events.Disconnected += Events_Disconnected;
+            client.Events.DataReceived += Events_DataReceived;
+            btnSend.Enabled = false;
+            btnMatchmake.Enabled = false;
+
+            loginPanel.Visible = true;
+            chatPanel.Visible = false;
+            gamePanel.Visible = false;
+            btnHideChat.Hide();
+        }
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
@@ -64,6 +78,9 @@ namespace TCPClient
                     txtPassword.Enabled = false;    // Disables the password text box
                     btnMatchmake.Enabled = true;
                     txtIP.Enabled = false;
+
+                    loginPanel.Visible = false;
+                    gamePanel.Visible = true;
                 }
             }
             catch (Exception ex)
@@ -83,16 +100,6 @@ namespace TCPClient
                     txtMessage.Text = string.Empty; // Empties the message box
                 }
             }
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            client = new(txtIP.Text);
-            client.Events.Connected += Events_Connected;
-            client.Events.Disconnected += Events_Disconnected;
-            client.Events.DataReceived += Events_DataReceived;
-            btnSend.Enabled = false;
-            btnMatchmake.Enabled = false;
         }
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
@@ -120,9 +127,14 @@ namespace TCPClient
                         client.Dispose();
 
                         btnSend.Enabled = false;
+                        btnMatchmake.Enabled = false;
                         btnConnect.Enabled = true;
                         txtName.Enabled = true;
                         txtPassword.Enabled = true;
+
+                        loginPanel.Visible = true;
+                        gamePanel.Visible = false;
+
                         break;
                     case "*":
                         // Image position
@@ -137,10 +149,25 @@ namespace TCPClient
                         break;
                     case "?":
                         opponent = testing.Substring(1);
-                        MessageBox.Show($"You're playing against {opponent}. Good luck!");
+                        lblOpponent.Text += " " + opponent;
                         break;
                     case "^":
                         gameOver(testing.Substring(1), false);
+                        break;
+                    case ",":
+                        //MessageBox.Show(testing.Substring(1));
+                        string[] onlineList = testing.Substring(1).Split(',');
+                        
+                        if (lstOnline.Items.Count >= 1) 
+                        {
+                            lstOnline.Items.Clear();
+                        }
+
+                        for (int i = 0; i < onlineList.Count(); i++)
+                        {
+                            lstOnline.Items.Add(onlineList[i]);
+                        }
+
                         break;
                 }
             });
@@ -167,6 +194,7 @@ namespace TCPClient
             });
         }
 
+        //  This function is used to encrypt the password string
         private string encryptString(string input)
         {
             string output = "";
@@ -185,15 +213,37 @@ namespace TCPClient
             return output;
         }
 
-        //   The game
-        //      |
-        //      |
-        //      V
+        //  **************
+        //  Misc functions
+        //  **************
+
+        //  Closes the application
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        //  Minimises the form 
+        private void btnMin_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        //  Shows the help form
+        private void btnHelp_Click(object sender, EventArgs e)
+        {
+            hf.Show();
+        }
+
+        //  **********************************
+        //  The game's main function are below
+        //  **********************************
 
         private void btnMatchmake_Click(object sender, EventArgs e)
         {
             client.Send("#");
             btnMatchmake.Enabled = false;
+            gamePanel.Visible = true;
         }
 
         private void setupGame()
@@ -221,7 +271,14 @@ namespace TCPClient
 
         private void loadImages()
         {
+            //81, 47
+
+            /*
             int leftPos = 480;
+            int topPos = 20;
+            */
+
+            int leftPos = 70;
             int topPos = 20;
             int rows = 0;
 
@@ -247,7 +304,7 @@ namespace TCPClient
 
                 if (rows == 4)
                 {
-                    leftPos = 480;
+                    leftPos = 70;
                     topPos += 100;
                     rows = 0;
                 }
@@ -371,19 +428,18 @@ namespace TCPClient
             pictureBoxList.Clear();
         }
 
-        private void btnClose_Click(object sender, EventArgs e)
+        private void btnShowChat_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            chatPanel.Visible = true;
+            btnShowChat.Hide();
+            btnHideChat.Show();
         }
 
-        private void btnMin_Click(object sender, EventArgs e)
+        private void btnHideChat_Click(object sender, EventArgs e)
         {
-            this.WindowState = FormWindowState.Minimized;
-        }
-
-        private void btnHelp_Click(object sender, EventArgs e)
-        {
-            hf.Show();
+            chatPanel.Visible = false;
+            btnShowChat.Show();
+            btnHideChat.Hide();
         }
     }
 }
