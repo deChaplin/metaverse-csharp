@@ -1,7 +1,5 @@
 # metaverse-csharp
 
-# metaverse-csharp
-
 # How to run
 
 ## Release 
